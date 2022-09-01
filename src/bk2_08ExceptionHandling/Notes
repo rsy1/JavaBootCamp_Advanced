@@ -1,0 +1,248 @@
+ Java Exception Handling
+=========================
+
+»»When an error occurs and an exception object is created, Java is said to have
+	thrown an exception. Java has a pretty good throwing arm, so the exception is
+	always thrown right back to the statement that caused it to be created.
+	
+»»The statement that caused the exception can catch the exception if it wants it,
+	but it doesn’t have to catch the exception if it doesn’t want it. Instead, it can
+	duck and let someone else catch the exception. That someone else is the
+	statement that called the method that’s currently executing.
+	
+»»If everyone ducks and the exception is never caught by the program, the
+	program ends abruptly and displays a nasty-looking exception message on
+	the console (more on that in the next section).
+	
+»»Two basic types of exceptions in Java are checked exceptions and unchecked
+	exceptions:
+	
+• A checked exception is an exception that the compiler requires you to provide
+	for it one way or another. If you don’t, your program doesn’t compile.
+
+• An unchecked exception is an exception that you can provide for, but you
+	don’t have to.
+
+Exception Examples
+===================
+»»IllegalArgumentException: You passed an incorrect argument to a method.
+»»InputMismatchException: The console input doesn’t match the data type	expected by a method of the Scanner class.
+»»ArithmeticException: You tried an illegal type of arithmetic operation, such 	as dividing an integer by zero.
+»»IOException: A method that performs I/O encountered an unrecoverable I/O error.
+»»ClassNotFoundException: A necessary class couldn’t be found.
+::and many more.........browse thru the Java API.
+		
+Catching Exceptions
+=====================
+try
+{
+	statements that can throw exceptions
+}
+catch (exception-type identifier)
+{
+	statements executed when exception is thrown
+}
+catch (exception-type identifier)
+{
+	statements executed when exception is thrown
+}
+finaly()
+{
+	statements in fanaly block always execute last regardless
+}
+
+::>>You can code more than one catch block. That way, if the statements in the
+	try block might throw more than one type of exception, you can catch each
+	type of exception in a separate catch block.
+
+::>>For scoping purposes, the try block is its own self-contained block, separate
+	from the catch block. As a result, any variables you declare in the try block
+	are not visible to the catch block. If you want them to be, declare them
+	immediately before the try statement.
+
+::>>You can also code a special block (called a finally block) after all the catch
+	blocks. For more information about coding finally blocks, see the section
+	“Using a finally Block,” later in this chapter.
+
+::>>The various exception classes in the Java API are defined in different packages.
+	If you use an exception class that isn’t defined in the standard java.lang
+	package that’s always available, you need to provide an import statement for
+	the package that defines the exception class.
+	
+Handling Exceptions with a Preemptive Strike
+==============================================
+	::Test your data before performing the operation that can lead to an exception
+e.g	::Avoid the ArithmethicException that results from dividing integer data by zero by checking the data 
+	  before performing the division
+	=>int b=sc.nextInt(); if (b != 0) c = a / b;
+	
+Catching All Exceptions at Once
+================================
+try
+{
+	// statements that might throw several types of  exceptions
+}
+catch (InputMismatchException e)
+{
+	// statements that process InputMismatchException
+}
+catch (IOException e)
+{
+	// statements that process IOException
+}
+catch (Exception e)
+{
+	// statements that process all other exception types
+}
+
+::When you code more than one catch block on a try statement, always list the
+  more specific exceptions first. If you include a catch block to catch Exception,
+  list it last.
+	
+Displaying the Exception Message
+======================================
+::The lines called the stack trace, list the methods
+	that the exception passed through before your program was aborted. Usually,
+	the first method listed is deep in the bowels of the Java API and the last method
+	listed is your application’s main method
+
+	Stack Trace Example
+	---------------------
+	at java.util.Scanner.throwFor(Scanner.java:909)
+	at java.util.Scanner.next(Scanner.java:1530)
+	at java.util.Scanner.nextInt(Scanner.java:2160)
+	at java.util.Scanner.nextInt(Scanner.java:2119)
+	at GuessingGameMethod3.getGuess(GuessingGameMethod3.java:51)
+	at GuessingGameMethod3.playARound(GuessingGameMethod3.java:31)
+	at GuessingGameMethod3.main(GuessingGameMethod3.java:13)
+
+	Other helpfull Exception class methods
+	---------------------------------------
+	String getMessage() == Describes the error in a text message.
+	void printStackTrace() == Prints the stack trace to the standard error stream.
+	String toString() == Returns a description of the exception. This description
+						 includes the name of the exception class followed by a colon and the getMessage message.
+						 
+Using a finally Block
+======================
+A finally block is a block that appears after all the catch blocks for a statement.
+It’s executed whether or not any exceptions are thrown by the try block or caught
+by any catch blocks. Its purpose is to let you clean up any mess that might be left
+behind by the exception, such as open files or database connections.
+
+try
+{
+statements that can throw exceptions
+}
+catch (exception-type identifier)
+{
+statements executed when exception is thrown
+}
+finally
+{
+statements that are executed whether or not exceptions occur
+}
+
+
+Handling Checked Exceptions
+============================
+::Whenever you code a statement that could throw a checked exception, your program must do one of two things:
+»»Catch the exception by placing the statement within a try statement that has
+	a catch block for the exception.
+»»Specify a throws clause on the method that contains the statement to 	indicate that your method doesn’t
+	want to handle the exception, so it’s passing the exception up the line.
+	
+	Viewing the catch-or-throw compiler error
+	------------------------------------------
+	e.g FileException1.java
+	
+	Catching FileNotFoundException
+	-------------------------------
+	e.g FileException2.java
+	
+	Throwing the FileNotFoundException
+	-----------------------------------
+	e.g FileException3
+	
+	Throwing an exception from main
+	----------------------------------
+	:If you don’t want the program to handle the exception at all, you can add a throws clause to the main method,
+    :The program will have an abrupt end with an exception message and stack trace if the exception occurs.
+    :Bad programming practice........
+    
+    Swallowing exceptions
+    -------------------------
+	:You can do that by catching the exception in the catch block of a try statement but leaving the body of the catch block empty
+	:Demonstrate on class FileException3.java
+	:Bad programming practice, swallowed exception can sneak into production and become defficult to trace
+	:At least write a message to the console in the catch block indicating that the exception occurred.
+	
+Throwing Your Own Exceptions
+=============================
+»»You throw an exception by executing a throw statement. The throw statement specifies the exception object to be thrown.
+»»If a method contains a throw statement, it must include a throws clause in its declaration.
+
+: throw new exception-class ();
+: The exception-class can be Exception or a class that’s derived from Exception
+
+e.g MyException.java
+
+
+Catching Multiple Exceptions
+=============================
+:New in Java 7, lets you catch two or more exception types with a single catch statement.
+
+	Old way before Java 7 (It works but clumsy/untide??)
+	----------------------
+		try
+		{
+		// statements that might throw FileNotFoundException // or IOException
+		}
+		catch (FileNotFoundException e)
+		{
+		System.out.println(e.getMessage());
+		}
+		catch (IOException e)
+		{
+		System.out.println(e.getMessage());
+		}
+	
+	New way from Java 7 (Handles both exception types with just one block of code)
+	--------------------
+		try
+		{
+		// statements that might throw FileNotFoundException // or IOException
+		}
+		catch (FileNotFoundException | IOException | ClassCastException | ArithmeticExceptio ex)
+		e.printS
+		{
+		System.out.println(e.getMessage());
+		}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
