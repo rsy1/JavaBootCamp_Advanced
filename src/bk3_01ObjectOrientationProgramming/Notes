@@ -1,0 +1,134 @@
+
+Object Orientation Programing
+==============================
+
+	Introduction
+	----------------
+	==>:Object-oriented programming is a type of computer programming based on the premise that all programs 
+	    are essentially computer-based simulations of real-world objects or abstract concepts.
+	    Examples: Computer Games, Flight Simulators, A business transaction like ATM Cash deposit/withdrawal.
+	    
+	Understating Objects
+	--------------------
+	==>:Objects have identity, type, state, and behavior
+		
+		Object Identity
+		----------------
+		=>>:Every object have an instance that can distinguish it from every other occurrence of the same 
+		    type of object as well as from objects of other types.
+		=>>:The object hash code, which is an int value automatically generated for every object during 
+		    instantiation represents the object’s identity
+		=>>:In most cases, the hash code for an object is based on the object’s memory address (but not always)
+		=>>:Every object have its own unique memory location/address.
+		=>>:The equality operator (==) tests the object identity of two variables or expressions. If they 
+		    refer to the same object instance, the two variables or expressions are considered equal.
+		    
+		Object Type
+		-----------
+		=>>:Types are defined by classes
+		=>>:The compiler holds a references to objects using assigned variables
+		    e.g Invoice i = new Invoice(); 
+		    "i" is variable with reference to the object it has been assigned to.
+				
+		Object State
+		------------
+		=>>:All objects of a particular type have the same attributes(class variables) but different values,
+		    which are declared either public or private
+		=>>:The combination of the values for all the attributes of an object is called the object’s state.
+		=>>:An object’s state can — and usually does — change over its lifetime.
+			e.g Employee object state changed because of salary increase, marital status,address change, resign, retiered	
+		
+		Object Behavior
+		--------------
+		=>>:Objects have behavior, meaning they can do things.
+		=>>:Behavior of an object depends on its type
+		=>>:Behavior is not different for each instance of the same type.
+		   e.g All students have a calculator of same type, teacher ask them to add two of thier choice.
+		   result = add the same way but different ans displayed, (therefore:different state but same behavior)
+		=>>:they provide services that can be used by other objects.
+		   e,g Number Format class, provide formatting services that turn numeric values into nicely formatted
+		       strings such as $32.95.
+	    =>>:Object behavior is provided by the object methods.
+	        e.g format method of the NumberFormat class is what provides the formatting behavior for
+				NumberFormat objects.
+		
+		Futher Reading/research
+		=======================
+		»»The interface of a class is the set of methods and fields that the class makes public so that other 
+		  objects can access them.
+        »»Exactly how an object does what it does can and should be hidden within the object. Someone who uses
+          the object needs to know what the object does but doesn’t need to know how it works. If you later 
+          find a better way for the object to do its job, you can swap in the new improved version without 
+          anyone knowing the difference.   
+		 
+Understanding the Life Cycle of an Object
+=========================================		   
+		   1. =>:jvm reads the .class into memory
+		      =>:static fields/methods initialized 		      
+		   2. =>:Object created using "new" keyword
+		      =>:memory is allocated for the created object & a reference(hash code) is set up
+		      =>:Object constructor is called(always once) & object is initialized
+		         e.g initializing variables, opening files or databases
+		   3. =>The object lives its life, providing access to its public methods and fields to
+				whoever wants and needs them.
+		   4. =>Time to die, garbage collector removes object from memory, and internal reference is droped		   
+		   
+Working with Related Classes
+============================
+		Inheritance
+		------------
+		=>>:inheritance is as a way to implement "is-a-type-of" relationships
+		=>>:Using one class as the basis for another
+		=>>:The existing class is called the base class, superclass,or parent class;
+		=>>:derived from superclass is called the derived class, subclass, or child class.
+		=>>:subclass is automatically given all the methods and fields defined by its superclass
+		=>>:use these methods and fields as is, or you can override them to alter their behavior.
+		=>>:methods & fields that define data and behavior that’s unique to the subclass can be added to it
+		
+		Interfaces
+		-----------
+		=>>:An interface is a set of methods and fields that a class must provide to implement the interface.
+		=>>:The interface itself is simply a set of public method and field declarations that are given a name.   
+		=>>:the interface itself doesn’t provide any code that implements those methods. Instead, it just
+		    provides the declarations
+		=>>:The class that implements the interface provides code for each of the methods the interface defines.
+		   
+Designing a Program/application with Objects
+=============================================
+	=>>:Devide the application into three different layers
+		1. =>>:Presentation: HTML, Swing, GUI based application
+		2. =>>:Logic layer : objects that represent business entities such as customer, products, orders, 
+		                     suppliers. The layer also called "business rules layer"
+		3. ==>:Database    : Data storage using SQL to insert, update & query records of the application 
+		   
+Diagramming Classes with UML
+=============================		   
+		=>>: Used to draw class diagrams to illustrate the relationships among the classes that make up an application.
+		=>>: Refere to UML diagrams on the net & in the book.
+		=>>: https://www.uml-diagrams.org/examples/hospital-domain-diagram.html?context=cls-examples
+		     https://www.uml-diagrams.org/java-7-concurrent-uml-class-diagram-example.html?context=cls-examples
+		     
+		Drawing arrows
+		--------------
+		=>>: A solid line with a hollow closed arrow at one end represents inheritance, The arrow points to the base class. 
+		=>>: A dashed line with a hollow closed arrow at one end indicates that a class implements an interface
+		     The arrow points to the interface. 
+		=>>: A solid line with an open arrow indicates an association, An association simply indicates that two 
+		     classes work together. It may be that one of the classes creates objects of the other class or that 
+		     one class requires an object of the other class to perform its work. Or perhaps instances of one 
+		     class contain instances of the other class.
+		   
+		   
+		   
+		   
+		   
+		   
+		   
+		   
+		   
+		   
+		   
+		   
+		   
+		   
+		       
