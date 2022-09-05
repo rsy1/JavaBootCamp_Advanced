@@ -1,0 +1,32 @@
+package bk3_03WorkingWithStatics;
+
+//Illustration: Instance creation count
+//how many have been created during a particular execution of the program
+
+public class CountTestApp {
+	public static void main(String[] args)
+	{
+	printCount();
+	for (int i = 0; i < 10; i++)
+	{
+	CountTest c1 = new CountTest(); 
+	printCount(); 
+	}
+	}
+
+	private static void printCount() {
+		System.out.println("There are now " + CountTest.getInstanceCount() + " instances of the CountTest class.");
+	}
+}
+
+class CountTest {
+	private static int instanceCount = 0;
+
+	public CountTest() {
+		instanceCount++;
+	}
+
+	public static int getInstanceCount() {
+		return instanceCount;
+	}
+}
