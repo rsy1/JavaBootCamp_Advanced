@@ -1,0 +1,175 @@
+
+Using the Object and Class Classes
+=====================================
+
+	The Mother of All Classes: Object
+	----------------------------------
+	:: Object is the mother of all classes. In Java, every class ultimately inherits the Object
+		class. This class provides a set of methods that is available to every Java object.
+		
+		public class Manager extends SalariedEmployee...
+		public class SalariedEmployee extends Employee...
+		public class Employee extends Person...
+		public class Person...
+		
+		Object emp = new Employee(); 
+			::	(legal) but can't do anything useful with the emp variable, however, because the compiler
+				doesn’t know that it’s an Employee.
+			:: ((Employee)emp).setLastName("Smith");
+				:: must cast to use it as an employee.
+				
+		Methods of the Object class
+		---------------------------
+			:: protected Object clone() Returns a copy of this object.
+			   ------------------------
+			:: boolean equals(Object obj) Indicates whether this object is equal to the obj object.
+			   --------------------------
+			:: protected void finalize() Is called by the garbage collector when the object is destroyed.
+			   -------------------------
+			:: Class getClass() Returns a Class object that represents this object’s runtime class.
+			   ----------------
+			:: int hashCode() Returns this object’s hash code.
+			   --------------
+			:: void notify() Is used with threaded applications to wake up a thread that’s waiting on this object.
+			   -------------
+			:: void notifyAll() Is used with threaded applications to wake up all threads that are waiting on this object.
+			   ----------------
+			:: String toString() Returns a String representation of this object.
+			   -----------------
+			:: void wait() Causes this object’s thread to wait until another thread calls notify or notifyAll.
+			   -----------
+			:: void wait(Long timeout) Is a variation of the basic wait method.
+			   -----------------------
+			:: void wait(Long timeout, int nanos) Is yet another variation of the wait method.
+			   ----------------------------------
+		
+		Primitives aren’t objects
+		-------------------------
+		  :: primitive types, such as int and double, are not objects, they do not inherit the Object class and don’t have access to the "Object" methods.
+		  :: use a wrapper class such as "Integer", "Double" to create an object from the primitive value and then call its methods.
+		  
+		The "toString" Method / Overriding toString
+		--------------------------------------------
+		  :: The toString method returns a String representation of an object
+		  :: The default implementation of toString isn’t very useful in most situations.
+		  :: Overide the toString method to return some actual data from the object
+		  :: Always override toString method to retrieve object values.
+		       ***Examples :: TestToString.java & OverideToString.java***
+		  
+		The equals Method
+		------------------  
+			:: Object equality, Unfortunately, Java isn’t very good at it even with identical data.
+			:: the equality operator (==) compares the object references, not the data contained by the objects
+			:: comparison returns true only if compared variables refer to the same instance of the same class/object
+		    
+		    Solution : use equals()
+		    -----------------------
+		    :: Compare objects with the equals method rather than the equality operator.
+		    :: By default, the equals operator returns the same result as the equality operator (==).
+		    	:: (solution)		   
+			:: Override the equals method in your class to compare objects based on their data.
+			:: the parameter passed to the overriden equals(Objcet obj) method must be an Object, not a custom object
+			:: the equals(Object obj)  method will be prepared to deal with anything that comes its way
+			  ***Example code: TestEquality1 & 2.java***
+			
+		The clone Method
+		------------------
+			:: Cloning refers to the process of making an exact duplicate of an object.
+			:: A clone is an altogether new object that has the same values as the original object.
+			:: clone() is declared with protected access in the Object class. As a result, the clone method for a given class is 
+			   available only within that class. If you want other objects to be able to clone your object, you must override the clone
+               method and give it public access.
+            ***Example code: CloneTest.java***
+            
+        Using clone to create a shallow copy
+        -------------------------------------
+		  :: Declare that the class supports the Cloneable interface. The Cloneable interface is a tagging interface that doesn’t 
+		     provide any methods. It simply marks a class as being appropriate for cloning.
+		     
+		  :: Enclose the call to super.clone() in a try/catch statement that catches the exception CloneNotSupportedException. 
+		     This exception is thrown if you try to call clone on a class that doesn’t implement the Cloneable interface.
+			 Provided that you implement Cloneable, this exception won’t ever happen, but because CloneNotSupportedException is a 
+			 checked exception, you must catch it.			 
+			 ***example code: Employee4,java inside CloneTest.java***
+			 
+	    Using clone to create deep copies
+	    ---------------------------------
+	    :: It’s not uncommon for some fields in a class actually to be other objects.
+	    :: A deep copy is a clone in which any subobjects within the main object are also cloned
+	    
+	    	class Employee
+				{
+				public Address address;
+				// other fields and methods omitted
+				}
+			
+		:: If that’s the case, the super.clone() method won’t make a complete copy of the object. The clone won’t get a clone of the
+		   address field. Instead, it has a reference to the same address object as the original.
+		   
+		:: To accomplish this feat, the clone method override first calls super.clone() to create a shallow copy of the object. 
+		   Then it calls the clone method of each of the subobjects contained by the main object to create clones of those objects. 
+		   (For a deep copy to work, of course, those objects must also support the clone methods.)
+		  
+		  
+	The Class Class
+	---------------
+		:: Every class used by a Java application is represented in memory by an object of type Class.
+		:: If program uses Employee objects, there’s also a Class object for the Employee class. 
+		:: This Class object has information not about specific employees but about the Employee class itself.
+		
+		   	Employee emp = new Employee();
+			Class c = emp.getClass();
+			
+		:: Have to initialize a variable with an object instance before you can call its getClass() method, because the getClass() 
+		   method returns a Class object that corresponds to the type of object the variable refers to, not the type the variable is declared as.
+		   
+		   	HourlyEmployee emp = new Employee();
+			Class c = emp.getClass();
+			
+		:: Here c refers to a Class object for the HourlyEmployee class, not the Employee class.
+		:: Only 2 of the 50 methods are worthy of attention:
+		
+				getName(): Returns a String representing the name of the class
+				getSuperclass(): Returns another Class object representing this Class object’s superclass
+		  
+		:: One of the most common uses of the getClass method is to tell whether two objects are of the same type by comparing their Class objects. 
+		   This works because Java guarantees that the Class object has only one instance for each different class used by the application. So even 
+		   if your application instantiates 1,000 Employee objects, there is only one Class object for the Employee class.
+		         
+		         Object o1 = new Employee();
+				 Object o2 = new Employee();
+				 if (o1.getClass() == o2.getClass())
+				 	System.out.println("They're the same.");
+				 else
+					System.out.println("They are not the same.");
+					
+		 :: To find out whether an object is of a particular type, use the object’s getClass method to get the corresponding Class object. Then use the getName 
+		    method to get the class name, and use a string comparison to check the class name. Here’s an example:
+		    
+				if (emp.getClass().getName().equals("Employee"))
+					System.out.println("This is an employee object.");
+			
+		 :: If all the strung-out method calls give you a headache, you can break the code apart:
+		 
+				Class c = emp.getClass();
+				String s = c.getName();
+				if (s.equals("Employee"))
+					System.out.println("This is an employee object.");
+				
+			The result is the same.
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
+		  
