@@ -1,0 +1,202 @@
+
+Using Abstract Classes And Interfaces
+=======================================
+ =:: Both let you declare the signatures of the methods and fields that a class implements separately from the class itself.
+	 Abstract classes accomplish this by way of inheritance. Interfaces do it without using inheritance, but the effect is similar.
+	 
+	 Using Abstract Classes
+	 ----------------------
+	 =:: Java lets you declare that a method or an entire class is abstract, which means that the method has 
+	     no body. An abstract method is just a prototype for a method: a return type, a name, a list of parameters, 
+	     and (optionally) a throws clause	     
+	 =:: public abstract int hit(int batSpeed);
+	 
+	 =:: A class that contains at least one abstract method is called an abstract class and must be declared 
+	     with the abstract modifier on the class declaration
+	     
+     =:: public abstract class Ball
+			{
+			public abstract int hit(int batSpeed);
+			}
+	=:: Can not declare an abstract method in a non abstract class.
+	=:: An abstract class can’t be instantiated
+	=:: When you subclass an abstract class, the subclass must provide an implementation for each abstract 
+	    method in the abstract class. In other words, it must override each abstract method with a nonabstract method.
+	    (If it doesn’t, the subclass is also abstract, so it can’t be instantiated either.)
+	    
+	=:: Not all the methods in an abstract class have to be abstract. A class can provide an implementation
+	    for some of its methods but not others. In fact, even if a class doesn’t have any abstract methods, 
+	    you can still declare it as abstract. (In that case, the class can’t be instantiated.)
+	    
+		A private method can’t be abstract. That makes sense, because a subclass
+		can’t override a private method, and abstract methods must be overridden.
+
+	=:: Although you can’t create an instance of an abstract class, you can declare a variable by using an abstract class as its type. 
+	    Then use the variable to refer to an instance of any of the subclasses of the abstract class.
+
+	=:: A class can’t specify both abstract and final. 
+			
+	THE ABSTRACT FACTORY PATTERN
+	----------------------------
+	***example code: BallFactory.java, Ball.java, BaseBall.java, SoftBall.java***
+	
+	Abstract classes are useful when you want to create a generic type that is used as the superclass for two
+	or more subclasses, but the superclass itself doesn’t represent an actual object.
+	
+	Using Interfaces
+	-----------------
+	=:: An interface is similar to an abstract class, but an interface can include only abstract methods and 
+	    final fields (constants), and an interface can’t be used as a base class. A class implements an interface 
+	    by providing code for each method declared by the interface.
+	    
+	    Advantages over Inheritance
+	    ---------------------------
+	    =:: Interfaces are easier to work with than an abstract class, because you don’t have to worry about 
+	        providing any implementation details in the interface. 
+	    =:: A class can extend only one other class, but it can implement as many interfaces as you need.
+	    
+			public interface Playable
+			{
+			void play();
+			}
+			
+		Interesting thoughts on Interfaces
+		----------------------------------
+		=:: The interface itself is declared as public so that it can be used by other classes. Like a public class, 
+		    a public interface must be declared in a file with the same name. Thus this interface must be in a file 
+		    named Playable.java. »»The name of the interface (Playable) is an adjective. Most interfaces are named 
+		    with adjectives rather than nouns because they describe some additional capability or quality of the 
+		    classes that implement the interface. Thus classes that implement the Playable interface represent objects 
+		    that can be played.
+		    
+		=:: Another common way to name interfaces is to combine an adjective with a noun to indicate that the interface 
+		    adds some capability to a particular type of object. You could call an interface that provides methods unique 
+		    to card games CardGame, and this interface might have methods such as deal, shuffle, and getHand.
+		    
+		=:: All the methods in an interface are assumed to be public and abstract. If you want, you can code the public  
+		    and abstract keywords on interface methods. That kind of coding is considered to be bad form, however, because it
+            might indicate that you think the default is private and not abstract.
+
+		Implementing an interface
+		-------------------------
+		=:: To implement an interface, a class must do two things:
+			=:: It must specify an implements clause on its class declaration.
+			=:: It must provide an implementation for every method declared by the interface.
+			
+	    =:: refere to book page 304
+	    
+	    Using an interface as a type
+	    -----------------------------
+	    =:: refer to book for more reading, page 304-306
+
+		More Things You Can Do with Interfaces
+		---------------------------------------
+			Adding fields to an interface
+			------------------------------
+			=:: Besides abstract methods, an interface can include final fields — that is, constants. Interface 
+			    fields are used to provide constant values that are related to the interface.
+			    
+			    public interface GolfClub
+				{
+				int DRIVER = 1;
+				int SPOON = 2;
+				int NIBLICK = 3;
+				int MASHIE = 4;
+				}
+			=:: interface fields are automatically assumed to be static, final, and public. You can include these 
+			    keywords when you create interface constants but not compulsary
+			    
+			Extending interfaces
+			--------------------
+			=:: You can extend interfaces by using the extends keyword. An interface that extends an existing 
+			    interface is called a subinterface, and the interface being extended is called the superinterface.
+			=:: refer to book for more reading page 307
+			
+			Using interfaces for callbacks
+			-------------------------------
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
