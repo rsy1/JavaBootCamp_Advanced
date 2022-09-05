@@ -1,0 +1,236 @@
+
+Making Own Classes
+=======================
+
+	Declaring a Class
+	==================
+	=>>: All classes must be defined by a class declaration — lines of code that provide the name for the class 
+     	 and the body of the class.
+     
+     	[public] class ClassName {class-body}
+     
+     =>>: The public keyword indicates that this class is available for use by other classes.
+     
+     
+     Picking class names
+     ====================
+     =>>: The ClassName is an identifier that provides a name for your class.
+     =>>: Class nane begin with capital letter, use nouns, non Java API class names
+     =>>: If you use same name as API class, must use fully qualified names, e.g java.util.Scanner
+     
+     What goes in class body
+     =======================
+     =>>: The class body of a class is everything that goes within the braces at the end of the
+          class declaration.
+     =>>: The public class ClassName part of a class declaration takes just one line, but the body of the class 
+     	  declaration may take hundreds of lines
+     	  
+     	  Class body can contain
+     	  -----------------------
+     	  =: fileds (Variable declarations define the public or private fields of a class.)
+     	  =: Methods
+     	  =: Constructors
+     	  =: Initializers (run only once, static initializers & instance initializers)
+     	  =: Other classes and interfaces(inner class or a nested class)
+     	  =: fields, methods, classes, interfaces contained within a class are called mebers of a class
+     	  =: Constructors & initializers are not considered members (Book 3 chpt 3)
+     	  
+     	  Where classes go
+     	  -----------------
+     	  =: written in a source file that has same name as class with externtion .java
+     	  =: One public class = one file
+     	  =: An inner class is a class that’s defined within the body of another class and is available
+             only from within that class.(Book 3, chapt 7)
+             
+          Working with Members
+          ---------------------
+          =: The members of a class are the fields and methods defined in the class body
+          
+          		Understanding fields
+          		--------------------
+          		=: A field is a variable that’s defined in the body of a class, outside any of the class’s methods
+          			
+          			=: Fields can be declared as public
+          			public int trajectory = 0;
+					public String name;
+					public Player player;
+					
+					=: Fields can also be declared as private
+					private int x_position = 0;
+					private int y_position = 0;
+					private String error-message = "";
+					
+					=: Fields can also be declared as final:
+					public final int MAX_SCORE = 1000;
+					
+				Understanding methods
+				----------------------
+				=:public method declaration
+					public boolean isActive()
+					{
+					return this.isActive;
+					}
+				
+				=:private method declaration
+					private void calculateLunarTrajectory()
+					{
+					// code to get the calculated lunar trajectory
+					}
+					
+				Understanding visibility
+				---------------------------
+          		=>>: Both fields and methods can use the public or private keyword.
+          		=>>: public members(fields & methods) are exposed members of a class
+          		=>>: private members(fileds & methods) are hidden/internal members of a class
+          		=>>: private fields and methods can be used within a class, but not from other classes.
+          		
+          
+          Using Getters and Setters
+          --------------------------
+          =::carefully consider which fields really should be accessible to the outside world — and provide 
+             accessors only for those fields that really need them
+             
+          Overloading Methods
+          -------------------
+          		=:: A class can contain two or more methods with the same name but accept different parameters.
+          		=:: 10 versions of the println() method that allow you to print different types of data.
+	             	void println()
+					void println(boolean x)
+					void println(char x)
+					void println(char[] x)
+					void println(double x)
+					void println(float x)
+					void println(int x)
+					void println(long x)
+					void println(Object x)
+					void println(String x)
+				
+				=:: every method must have a unique signature(name and the number and types of parameters)
+				=:: return type is not part of the method signature
+				=:: parameter names are not part of the method signature(example below, is the same)
+				    double someMethodOfMine(double x, boolean y)
+					double someMethodOfMine(double param1, boolean param2)
+					
+		  Creating Constructors
+		  ----------------------
+				=:: A Constructor is a block of code that’s called when an instance of an object is created by the "new" keyword
+				=:: A constructor doesn’t have a return type.
+				=:: The name of the constructor must be the same as the name of the class.
+				=:: Constructors are not considered to be members of a class
+					
+						public ClassName (parameter-list) [throws exception...]
+						{
+						statements...
+						}
+						
+				=:: a constructor can throw exceptions like methods
+				
+				Creating basic constructors
+				----------------------------
+				=:: most common reason for coding a constructor is to provide initial values for class fields 
+				    when you create the object
+				=:: Like methods, constructors can be overloaded
+				
+				Creating default constructors
+				------------------------------
+		 		=:: Every class has a right to a constructor. java apoints one with no parameters and only 
+		 		    help with instantiation.
+		 		=:: Not created if there is any other constructor declared, if needed, must be explicitly declared.
+		 		
+		 		Calling other constructors
+		 		--------------------------
+		 		=:: A constructor can call another constructor of the same class by using the special keyword 
+		 		   "this" as a method call
+				=:: This technique is commonly used when you have several constructors that build on one another
+				    Demo class:	 (Actor1.java)
+				
+				
+				Restrictions: -:Call to another constructor must be the first line in the calling constructor
+							  -:Each constructor can call only one other constructor, but you can chain constructors.
+				              -:You can’t create loops in which constructors call one another
+				              Demo class: CrazyClass.java
+          
+          Finding More Uses for the "this" Keyword
+          -----------------------------------------
+          =:: The this keyword is usually used to qualify references to instance variables of the current object.
+          
+              	public Actor(String lastName, String firstName)
+				{
+					this.lastName = lastName;
+					this.firstName = firstName;
+				}
+				
+		   =:: Used all by itself to pass a reference to the current object as a method parameter.
+          		
+          		System.out.println(this);
+          		
+         
+          Using Initializers
+          -------------------
+          =:: executed whenever an instance of a class is created, regardless of which constructor is used to 
+              create the instance.
+          =:: Initializer blocks are similar to variable initializers used to initialize variables.
+          		Demo class : PrimeClass.java, PrimeClass1.java
+          		
+            »»If a class contains more than one initializer, the initializers are executed in the
+			  order in which they appear in the program.
+			
+		    »»Initializers are executed before any class constructors.
+			
+			»»A special kind of initializer block called a static initializer lets you initialize static fields.
+            
+            »»Initializers are sometimes used with anonymous classes
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+     	  
+     	  
