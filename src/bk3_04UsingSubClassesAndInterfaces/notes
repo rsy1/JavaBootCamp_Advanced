@@ -1,0 +1,312 @@
+
+SubClasses & Interfaces
+=========================
+
+	Introducing Inheritance
+	-----------------------
+	=:: Inheritance refers to a feature of object-oriented programming that lets you create classes that are 
+	    derived from other classes
+	=:: The inherited class is called the parent class, the base class, or the superclass.
+	=:: The inheriting class is called the child class, the derived class, or the subclass.
+	    »»A derived class automatically takes on all the behavior and attributes of its
+			base class. Thus, if you need to create several classes to describe types that
+			aren’t identical but have many features in common, you can create a base
+			class that defines all the common features. Then you can create several
+			derived classes that inherit the common features.
+			
+		»»A derived class can add features to the base class it inherits by defining its
+			own methods and fields. This is one way that a derived class distinguishes
+			itself from its base class.
+			
+		»»A derived class can also change the behavior provided by the base class. A
+			base class may provide that all classes derived from it have a method named
+			play, for example, but each class is free to provide its own implementation of
+			the play method. In this case, all classes that extend the base class provide
+			their own implementation of the play method.
+			
+		»»Inheritance is best used to implement is-a-type-of relationships. Here are a few
+			examples: Solitaire is a type of game; a truck is a type of vehicle; an invoice is a
+			type of transaction. In each case, a particular kind of object is a specific type of
+			a more general category of objects.
+	=:: All classes ultimately derive from a Java class named Object
+	    
+	    Creating Subclasses
+	    --------------------
+	    public class ClassName extends BaseClass
+		{
+		// class body goes here
+		}
+		
+		»»A subclass inherits all the members from its base class. Constructors are not
+			considered to be members, however. As a result, a subclass does not inherit
+			constructors from its base class.
+			
+		»»The visibility (public or private) of any members inherited from the base
+			class is the same in the subclass. That means that you can’t access from the
+			subclass methods or fields that are declared in the base class as private.
+			
+		»»You can override a method by declaring a new member with the same
+			signature in the subclass. 
+			
+		»»A special type of visibility called protected hides fields and methods from
+			other classes but makes them available to subclasses. 
+			
+		»»You can add more methods or fields, private or protected, to a subclass.
+			
+			
+		Overriding Methods
+		----------------------
+		=:: Subclass overiding same signature of a public method of the base class
+		
+			Three Conditions for method overide
+			-----------------------------------
+			»»The class must extend the class that defines the method you want to override.
+			»»The method must be declared in the base class with public access. You can’t
+				override a private method.
+			»»The method in the subclass must have the same signature as the method in
+				the base class. In other words, the name of the method and the parameter
+				types must be the same.
+		
+		Protecting Your Members
+		-------------------------
+		=:: public members of the superclass are available to the subclass.
+		=:: private members are not available to the subclass, They do become part of the derived class,
+			but can’t be accessed directly in the derived class.
+		=:: protected members visibility is available to subclasses but not to other classes
+			***example code: Ball.java, BaseBall,java***
+			
+		Using "this" & "super" key words in the Subclasses
+		--------------------------------------------------
+		=:: the "this" key word, used to refer to the current object instance.
+		=:: used to distinguish between a local variable or a parameter and a class field with the same name.
+		=:: use the "super" keyword to refer to a field or method that belongs to a base class
+		=:: use the "super" keyword in the constructor of a subclass to explicitly call a constructor of the superclass
+			***example code: Ball.java, BaseBall.java***
+			
+		Understanding Inheritance and Constructors
+		-------------------------------------------
+		=:: When you create an instance of a subclass, Java automatically calls the "DEFAULT" constructor of the
+			base class before it executes the subclass constructor
+		=:: Reason being, super class members(var & methods) must be avialable before subclass need access to them
+		=:: can explicitly call a base class constructor from a subclass by using the "super" keyword
+		
+			***example code: Ball.java, FootBall.java***
+		
+			Rules to obey when working with superclass constructors
+			-------------------------------------------------------
+			»»If you use "super" to call the superclass constructor, you must do so in the very
+				first statement in the subclass constructor.
+				
+			»»If you don’t explicitly call "super", the compiler inserts a call to the default
+				constructor of the base class. In that case, the base class must have a default
+				constructor. If the base class doesn’t have a default constructor, the compiler
+				refuses to compile the program.
+				
+			»»If the superclass is itself a subclass, the constructor for its superclass is called
+				in the same way. This continues all the way up the inheritance hierarchy until
+				you get to the Object class, which has no superclass.
+				
+		Using final
+		------------
+		=:: "final" variable creates a constant whose value can’t be changed after initialization.
+		=:: can also create "final" methods and "final" classes
+		
+			Final methods
+			--------------
+			=:: A final method can’t be overridden by a subclass
+			
+			»»You might think that a subclass wouldn’t need to override a method, but
+			there’s no reason to be sure of that. Predicting how other people might use
+			your class is difficult. As a result, usually you should avoid using final methods
+			unless you have a compelling reason to do so.
+			
+			»»Final methods execute more efficiently than nonfinal methods because the
+			compiler knows at compile time that a call to a final method won’t be overridden
+			by some other method. The performance gain isn’t huge, but for applications
+			in which performance is crucial, it can be noticeable.
+			
+			»»Private methods are automatically considered to be final because you can’t
+			override a method you can’t see.
+					
+			Final classes
+			----------------
+			=:: A final class is a class that can’t be used as a base/super class(can't be subclassed).
+			=:: When a class is final, all of its methods are considered to be final as well.
+			=:: no class can possibly be in a position to override any of the methods in the final class
+			
+		Casting Up and Down
+		--------------------
+		==:: refer to book page 289 & research more
+		
+		Determining an Object’s Type
+		-----------------------------
+		=:: Use of instanceOf operator to decide which object to use/call
+		
+		Employee emp = getEmployee();
+		String msg;
+		if (emp instanceof SalariedEmployee)
+		{
+		msg = "The employee's salary is ";
+		msg += ((SalariedEmployee) emp).getFormattedSalary();
+		}
+		else
+		{
+		msg = "The employee's hourly rate is ";
+		msg += ((HourlyEmployee) emp).getFormattedRate();
+		}
+		System.out.println(msg);
+		
+		Polymorphism
+		----------------
+		=:: The term polymorphism refers to the ability of Java to use base class variables to refer to subclass objects
+		=:: to keep track of which subclass an object belongs to
+		=:: to use overridden methods of the subclass
+			***example classes: TicTacToeApp.java, Player.java, BetterPlayer.java***
+		
+		Creating Custom Exceptions
+		-------------------------------
+			Tracing the Throwable hierarchy (diagram page: 295)
+			-------------------------------
+			=:: Throwable: The root of the exception hierarchy is the Throwable class. This class represents 
+			    any object that can be thrown with a throw statement and caught with a catch clause.
+			=:: Error: This subclass of Throwable represents serious error conditions that reasonable programs
+			    can’t recover from. The subclasses of this class represent the specific types of errors that can occur. 
+			    If the Java Virtual Machine runs out of memory, for example, a VirtualMachineError is thrown. You don’t
+				have to worry about catching these errors in your programs.
+			=:: Exception: This subclass of Throwable represents an error condition that most programs should try to recover from.
+			    Thus, Exception is effectively the top of the hierarchy for the types of exceptions you catch with try/catch statements.
+			=:: With the exception (sorry) of RuntimeException, the subclasses of Exception represent specific types of checked exceptions
+			    that must be caught or thrown. Note that some of these subclasses have subclasses of their own. The exception class named
+			    IOException, for example, has more than 25 subclasses representing different kinds of I/O exceptions that can occur.
+			    
+			=:: RuntimeException: This subclass of Exception represents unchecked exceptions. You don’t have to catch or 
+			    throw unchecked exceptions, but you can if you want to. Subclasses of RuntimeException include NullPointerException and ArithmeticException.
+		
+		Creating an exception class 
+		--------------------------
+			:: To create a custom exception, you extend the class Exception and make it the base class.
+			
+				public class ProductDataException extends Exception
+					{
+					public ProductDataException
+						{
+						}
+					public ProductDataException(String message)
+						{
+						super(message);
+						}
+					}
+					
+			:: (refere to book, page 296)
+		
+		Throwing a custom exception (refere to book, page 296-297)
+		---------------------------
+		
+		public class ProductDB
+		{
+			public static void main(String[] args)
+			{
+				try
+				{
+					Product p = ProductDB.getProduct(productCode);
+				}
+			catch (ProductDataException e)
+				{
+				System.out.println(e.getMessage());
+				}
+			}
+			
+			public static Product getProduct(String code) throws ProductDataException
+				{
+				try
+					{
+					Product p;
+					// code that gets the product from a file
+					// and might throw an IOException
+					p = new Product();
+					return p;
+					}
+				catch (IOException e)
+					{
+					throw new ProductDataException(
+					"An IO error occurred.");
+					}
+				}
+			}
+		}			
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
