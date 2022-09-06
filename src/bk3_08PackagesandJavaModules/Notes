@@ -1,0 +1,110 @@
+
+Packages and New JavaModules
+=============================
+	
+		Working with Packages
+		----------------------
+		Putting Your Classes in a JAR File
+		-----------------------------------
+		***Refer to Book (Java All-in-One For Dummies)***
+			***pages: 353 - 362***
+			
+		Using JavaDoc to Document Classes
+		---------------------------------
+		***Refer to Book (Java All-in-One For Dummies)***
+			***Example Code: Employee.java***
+			***pages: 363 - 367***
+			
+		Using the Java Module System
+		-----------------------------
+		:: A module is a new way of grouping classes in a way that explicitly lists which other modules the module depends on and what specific public types 
+		   (that is, classes and interfaces) within the classes contained in the module are to be made available for other modules to use.
+		:: A module must explicitly list its dependencies — that is, what other modules are required for the module to compile and run. For example, 
+		   if one or more of the classes in the module require database access, the module must explicitly indicate that it requires the Java database module
+		   (known as java.sql). A module must also explicitly list the visibility of any packages contained within the module. As you already know, you can 
+		   create public types within a traditional package, and those public classes are available throughout the package and also externally to the package. 
+		   With modules, public types in a package are visible outside of the module only if the package is explicitly listed as an exported type.
+		   
+		:: Modules are stored in JAR files. A JAR file that contains a module is called a modular JAR file. 
+		:: The only difference between a modular JAR file and a regular JAR file is that a modular JAR file contains a special class called module-info.class,
+		   which identifies the module’s dependencies (that is, what other modules are required) and the packages that are visible to other modules using a source
+		   file called called module-info.java
+		   
+		The module-info.java file
+		----------------------------
+			:: The module-info.java file is a Java source file that defines a module.
+			:: A simple module-info.java file that does creates a module but does not define any dependencies or exported packages:
+				
+				module com.lowewriter.payroll {} 
+				
+			:: the name of the module is com.lowewriter.payroll, named just like packages using the reverse-domain notation followed by the name of the module.
+			:: To specify that the module is dependent on another module, you add a requires statement that specifies the name of the required module
+				
+				module com.lowewriter.payroll
+				{
+					requires java.SQL;
+					requires com.lowewriter.util;
+				}
+				
+			:: can also add exports statements to export packages that are contained in the module.
+				
+				module com.lowewriter.payroll
+				{
+					requires java.SQL;
+					requires com.lowewriter.util;
+					exports com.lowewriter.payrolldb;
+				}
+			:: You can also add exports statements to export packages that are contained in the module. When you export a package, any public classes or interfaces 
+			   within the package are visible to other modules.
+			:: In example above, any public classes or interfaces defined by the package com.lowewriter.payrolldb are visible to other modules.
+			
+		Setting up folders for a module
+		--------------------------------
+		:: Getting the source folders set up for a module is similar to setting up the folders for a package, but with the added requirement that the 
+		   module-info.java file must be in the root folder for the module. The root folder for the module is named the same as the module, using the dots.
+		   For example, the root folder for the com.lowewriter.payroll module is com.lowewriter.payroll.
+		:: The module-info.java file lives within the root folder. In addition, the path to
+			packages that are a part of the module typically follow the same convention as for normal packages. Thus, within the module root folder is a folder named com,
+			within the com folder is a folder named lowewriter, and within the lowewriter folder is a folder named payroll. The java files for the payroll package
+			are within the payroll folder. Assuming that there are two source files for the payroll package (named Address.
+			java and Employee.java), the complete folder structure including the source files for the payroll example looks like this:
+			
+			com.lowewriter.payroll			
+				module-info.java
+				com
+					lowewriter
+						payroll
+							Address.java
+							Employee.java
+							
+		:: Maybe now the exports command in the module-info.java file makes more sense: exports com.lowewriter.payroll;
+		:: Notice that the path from the module root to the source files for the package correspond to the package name. 
+		
+		Compiling a module
+		-------------------
+		:: The final step for creating a Java module is to assemble the compiled class files (including module-info.class) into a module JAR file. 
+		   You can do that by using the jar command, like this:	
+			
+			jar cf com.lowewriter.payroll.jar *.class com\lowewriter\payroll\*.class
+			
+		:: In this example, cf means to create a Jar file. The cf is followed by the class files to include. To keep the command simple, I used wildcards to 
+		   include all the class files in the module root folder and all the class files in the com\lowewriter\payroll folder.
+		   You can verify that the Jar file contains the correct contents by running the jar command with the tf option followed by the name of the Jar file. 
+		   For example:
+		   
+		   C:\Java9\com.lowewriter.payroll>jar tf com.lowewriter.payroll.jar
+			
+				META-INF/
+				META-INF/MANIFEST.MF
+				module-info.class
+				com/lowewriter/payroll/Address.class
+				com/lowewriter/payroll/Employee.class
+				
+		:: As you can see, the jar tf command indicates that the Jar file contains three classes as expected: module-info.class and the two com.lowewriter.payroll classes.
+
+
+
+
+
+
+			
