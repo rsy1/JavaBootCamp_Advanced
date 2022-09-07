@@ -1,0 +1,227 @@
+
+Working With Strings
+====================
+
+	Reviewing Strings
+	-----------------
+		::  Strings are reference types, not value types, such as int or boolean. As a result, a string variable holds a reference to 
+		    an object created from the String class, not the value of the string itself.		
+		::	Even though strings aren’t primitive types, the Java compiler has some features designed to let you work with strings almost 
+		    as though they were primitive types. Java lets you assign string literals to string variables, for example, like this:
+		    
+				String line1 = "Oh what a beautiful morning!";
+			
+		::	Strings can include escape sequences that consist of a slash followed by another character. The most common escape sequences
+		    are \n for new line and \t for tab. If you want to include a back slash in a string, you must use the escape sequence \\. Here is a 
+		    complete list of all the escape sequences you can use:
+		    		
+		::	Strings and characters are different. String literals are marked by quotation marks; character literals are marked by apostrophes. 
+		    Thus, "a" is a string literal that happens to be one character long. By contrast, 'a' is a character literal.
+			
+		::	You can combine, or concatenate, strings by using the + operator, like this:
+		
+				String line2 = line1 + “\nOh what a beautiful day!”;
+	
+		::	You can also use the += operator with strings, like this:
+	
+				line2 += “\nI’ve got a beautiful feeling”;
+	
+			When a primitive type is used in a concatenation expression, Java automatically converts the primitive type to a string. Thus Java allows the following:
+			
+				int empCount = 50;
+				String msg = "Number of employees: " + empCount;
+	
+			The various primitive wrapper classes (such as integer and double) have parse methods that can convert string values to numeric types. 
+			Here’s an example:
+			
+				String s = "50";
+				int i = Integer.parseInt(s);
+				
+	Using the String Class
+	-----------------------
+		:: The String class is the class you use to create string objects.
+		:: For a list of methods on String object, refer to page 378 to 379.
+		:: A String object is immutable, none of the string methods let you alter the string object in any way.
+		
+		Finding the length of a string
+		-------------------------------
+			String s = "A wonderful day for a neighbor.";
+			int len = s.length();
+			
+		:: Here len is assigned a value of 31 because the string s consists of 30 characters.
+		
+		Making simple string modifications
+		----------------------------------
+		:: Several of the methods of the String class return modified versions of the original string. toLowerCase, for example, converts a 
+		   string to all-lowercase letters:
+		   
+			String s1 = "Oompa Loompa";
+			String s2 = s1.toLowerCase();
+			
+		:: The trim method removes white-space characters (spaces, tabs, newlines, and so on) from the start and end of a word
+			
+			String s = " Oompa Loompa ";
+			s = s.trim();
+			
+		:: Remember, strings are immutable, these methods don’t actually change the String object. Instead, they create a new String with the modified value.
+		:: Remember to assign the result of this expression back to s after modification
+		
+		Extracting characters from a string
+		------------------------------------
+			:: You can use the charAt() method to extract a character from a specific position in a string.
+			:: index number for the first character in a string is 0, not 1
+			:: check the length of the string before extracting a character
+			:: If you specify an index value that’s beyond the end of the string, the exception StringIndexOutOfBoundsException is thrown
+			:: StringIndexOutOfBoundsException is not a checked exception, so there is no need for try/catch block.
+			 ***CountVowels.java***
+
+		Extracting substrings from a string
+		-----------------------------------
+		:: The substring method lets you extract a portion of a string
+		:: The first version accepts a single integer parameter. It returns the substring that starts at the position indicated by this parameter and extends to
+		   the rest of the string. String positions start with 0, not 1.
+		
+			String s = "Baseball";
+			String b = s.substring(4); // "ball"
+			
+		:: Here b is assigned the string ball.
+		:: The second version of the substring method accepts two parameters to indicate the start and end of the substring you want to extract
+		:: Note that the substring actually ends at the character that’s immediately before the position indicated by the second parameter
+			
+			String s = "Baseball";
+			String b = s.substring(2, 6); // "seba"
+			
+		:: Here b is assigned the string seba.
+		
+			Enter a string: Where have all the vowels gone?
+			Where have all the vowels gone?
+			Wh*r* h*v* *ll th* v*w*ls g*n*?
+			
+			***Example Code: MarkVowels.java***
+			
+		Splitting a string
+		--------------------------
+		:: The split command is especially useful for splitting a string into separate strings based on a delimiter character.
+		:: Suppose you have a string with the parts of an address separated by colons, like this:
+		
+			1500 N. Third Street:Fresno:CA:93722
+			
+		:: With the split method, you can easily separate this string into four strings. In the process, the colons are discarded.
+		
+			String address = "1500 N. Third Street:Fresno:CA:93722";
+			String[] parts = address.split(":");
+			for (int i = 0; i < parts.length; i++)
+				System.out.println(parts[i]);
+				
+		:: The string passed to the split method is actually a special type of string used for pattern recognition, called a regular expression.		
+			
+			-------------------	  --------------
+			Regular Expression |  Explanation
+			------------------	  --------------
+			\\t 				  A tab character
+			\\n 				  A newline character
+			\\| 				  A vertical bar
+			\\s 				  Any white-space character
+			\\s+				  One or more occurrences of any white-space character
+		
+		:: The \\s+ pattern used by the split method treats any consecutive white-space character as a single delimiter when splitting the words.
+				***Example code: ListWords2.java***
+		
+		
+		Replacing parts of a string
+		----------------------------
+		:: You can use the replaceFirst or replaceAll method to replace a part of a string that matches a pattern you supply with some other text
+		
+		:: Once again, don’t forget that strings are immutable. As a result, the replace methods don’t actually modify the String object itself.
+		   Instead, they return a new String object with the modified value.
+		   
+			***Example Code:: ReplaceStringParts.java***
+		
+		
+		StringBuilder and StringBuffer Classes
+		----------------------------------------		
+		:: The StringBuilder and StringBuffer classes are mirror images. Both have the same methods and perform the same string manipulations.
+		:: The StringBuffer class is safe to use in applications that work with multiple threads, 
+		:: StringBuilder is not safe for threaded applications but is more efficient than StringBuffer
+		:: Use the StringBuilder class unless your application uses threads
+		
+		Creating a StringBuilder object
+		-------------------------------
+		:: Can not assign string literals directly to a StringBuilder object
+		:: StringBuilder class, has a constructor that accepts a String as a parameter
+		
+			StringBuilder sb = new StringBuilder("Today is the day!");
+		
+		:: Internally, a StringBuilder object maintains a fixed area of memory called the buffer where it stores a string value.
+		:: StringBuilder object has both a length and a capacity. The length represents the current length of the string maintained by the StringBuilder, 
+		   and the capacity represents the size of the buffer itself.
+		:: Length can’t exceed the capacity.
+		
+		:: When you create a StringBuilder object, initially the capacity is set to the length of the string plus 16. The StringBuilder class automatically 
+		   increases its capacity whenever necessary,
+		   
+		
+		Using StringBuilder methods
+		---------------------------
+		:: StringBuffer class uses the same methods. If you have to use StringBuffer instead of StringBuilder,just change the class name and use the same methods.
+		:: For the list of methds refere to page 389 of the book or Java API.
+		:: Example caode: StringBuilderApp.java
+		
+		Using the CharSequence Interface
+		-----------------------------------
+		:: String, StringBuilder, and String Buffer — implement this interface
+		:: This method exists primarily to let you use String, StringBuilder, and StringBuffer interchangeably.
+		:: CharSequence Methods: char charAt(int): Returns the character at the specified position.
+								 int length(): Returns the length of the sequence.
+								 subSequence(int start, int end): Returns the substring indicated by the start and end parameters.
+								 toString(): Returns a String representation of the sequence.
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
