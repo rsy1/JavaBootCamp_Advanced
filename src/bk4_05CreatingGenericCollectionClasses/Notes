@@ -1,0 +1,160 @@
+
+Creating Generic Collection Classes
+=====================================
+	:: Frankly, generics is on the leading edge of object-oriented programming.
+	
+	Why Generics?
+	--------------
+	:: Before Java 1.5, collection classes could hold any type of object.
+	:: the add method for the ArrayList class had this declaration
+	:: Thus, you could pass any type of object to the add method — and the array list gladly accepted it.
+	
+			public boolean add(Object o)
+			{
+				// code to implement the add method
+			}
+	
+	:: When you retrieved an item from a collection, you had to cast it to the correct object type before you could do anything with it
+	
+			Employee e = (Employee)empList.get(0);
+			
+	:: The trouble is, what if the first item in the list isn’t an Employee?
+	:: there was no way to guarantee that only certain types of objects could be added to the collection.
+	
+	:: That’s why generics were invented. Now you can declare the ArrayList like this
+	
+			ArrayList<Employee> empList = new ArrayList<Employee>();
+			
+	:: Now the add method has a declaration that is the equivalent of this
+	
+			public boolean add(Employee o)
+			{
+				// code to implement the add method
+			}
+	:: Thus you can only add Employee objects to the list
+			
+	:: And the get() method has a declaration that’s equivalent to this:
+	
+		public Employee get(int index)
+		{
+		// code to implement the get method
+		}
+		
+	Creating a Generic Class
+	-------------------------
+	:: formal type parameters, you list the type parameter after the class name in angle brackets.
+	
+			public class ArrayList<E>
+			
+	:: The E parameter specifies the type of the elements that are stored in the list
+	:: Oracle recommends the type parameter name E (for Element) for any parameter that specifies element types in a collection.
+	
+			ArrayList<Product> empList;
+	
+	:: Here the E parameter is Product, which simply means that the element type for this instance of the ArrayList class is Product.
+	
+	:: The declaration for the add method for the ArrayList class
+	
+			public boolean add(E o)
+			{
+			// body of method omitted (thank you)
+			}
+			
+	:: Where you normally expect to see a parameter type, you see the letter E
+	:: Thus, this method declaration specifies that the type for the o parameter is the type specified for the formal type parameter E.
+	:: If E is Employee, that means the add method only accepts Employee objects.
+	
+	:: formal type parameter as a return type, Here’s the declaration for the get method:
+	
+			public E get(int index)
+			{
+			// body of method omitted (you're welcome)
+			}
+
+	:: Here E is specified as the return type. That means that if E is Employee, this method returns Employee objects.
+
+	
+	A Generic Stack Class
+	--------------------------
+	
+		***Example Code :: GenStack.java, GenStackTest.java***
+		
+	Using Wildcard-Type Parameters
+	--------------------------------
+	:: if you want to create a method that accepts any type of ArrayList, you have to code the method like this:
+		
+		public void addItems(ArrayList<?> list)
+		
+	:: the question mark indicates that you can code any kind of type here.
+	
+	:: suppose you’re working on a payroll system that has an Employee superclass with two subclasses named HourlyEmployee and SalariedEmployee, 
+	   and you want this method to accept an ArrayList of Employee objects, HourlyEmployee objects, or Salaried Employee objects 
+	   
+	:: add an extends clause to the wildcard
+	   
+			public void addItems(ArrayList<? extends Employee> list)
+
+	:: Then you can call the addItems method with an ArrayList of type Employee, HourlyEmployee, or SalariedEmployee.
+	
+	:: Suppose the addItems() method appears in a generic class that uses a formal type parameter <E> to specify the type of elements the class accepts, 
+	   and you want the addItems method to accept an ArrayList of type E or any of its subclasses.
+
+			public void addItems(ArrayList<? extends E> list)
+			
+	:: the wildcard type parameter <? extends E> above simply means that the Array List can be of type E or any type that extends E
+	
+	A Generic Queue Class
+	----------------------
+	:: A queue is another type of collection that lets you add objects to the end of the collection and remove them from the top.
+	
+			***Example Code : GenQueue.java, GenQueueTest.java***
+	
+	
+	Using the Diamond Operator
+	-----------------------------
+	:: you have to specify the types twice when you create a variable of a generic type, and then use the constructor to instantiate an object.
+		
+		ArrayList<String> nums = new ArrayList<String>();
+		
+	:: Here the type String must be specified twice: once in the type declaration for the variable, and again in the call to the constructor.
+	
+	:: Java 7 introduced a new feature called the diamond operator that lets you skip the type when you call the constructor
+	
+			ArrayList<String> nums = new ArrayList<>();
+			
+	:: The diamond operator simply deduces the correct type based on the variable’s type.
+	
+	
+	
+https://www.falkhausen.de/Java-8/java.util/Collection-Queue.html
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ 
