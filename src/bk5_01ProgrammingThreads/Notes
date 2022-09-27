@@ -1,0 +1,178 @@
+
+Programming Threads
+=====================
+	:: Threads let you divide the work of an application into separate pieces, all of which then run simultaneously.
+	:: The result is a faster and more efficient program, but along with the increased speed come more difficult programming and debugging
+	
+	Understanding Threads
+	----------------------
+	:: A thread is a single sequence of executable code within a larger program
+	
+	Creating a Thread
+	-----------------
+		Understanding the Thread class
+		------------------------------
+		:: Constructors and Methods of the Thread Class
+		
+			***TheThreadClass.png***
+
+	Extending the Thread class
+	---------------------------
+	:: The easiest way to create a thread is to write a class that extends the Thread class. Then all you have to do to start a thread is create an instance 
+	   of your thread class and call its start method.
+	   
+	   	***CountDownClock.java***
+	   	
+	:: The CountDownClock class extends the Thread class. Thread is defined in the java.language package, so you don’t have to provide an import statement to use it.
+	:: The CountDownClock class has a single method, named run. This method is called by Java when the clock thread has been started. All the processing done by the 
+	   thread must either be in the run method or in some other method called by the run method.
+	:: The run method includes a for loop that counts down from 20 to 0. 
+	:: The CountDownClock class uses the sleep method to pause for 1 second. Because the sleep method throws Interrupted Exception, a try/catch statement handles 
+	   this exception. If the exception is caught, it is simply ignored.
+	   
+	Implementing the Runnable Interface
+	------------------------------------
+	:: The problem with creating a class that extends the Thread class is that a class can have one superclass. What if you’d rather have your thread object extend 
+	   some other class? In that case, you can create a class that implements the Runnable interface rather than extends the Thread class. The Runnable interface 
+	   marks an object that can be run as a thread. It has only one method, run, that contains the code that’s executed in the thread. 
+	   (The Thread class itself implements Runnable, which is why the Thread class has a run method.)
+	   
+	   Using the Runnable interface
+	   ------------------------------	   
+	   :: Create a class that implements Runnable.
+	   :: Provide a run method in the class you created in Step 1.
+	   :: Create an instance of the Thread class and pass your Runnable object to its constructor as a parameter. A Thread object is created that can run your Runnable class.
+	   :: Call the Thread object’s start method
+	   
+	   		***LaunchEvent.java***
+	   		
+	   :: This class implements the Runnable interface.
+       :: The constructor accepts two parameters: an integer representing the start time (in seconds) and a string message that’s displayed when the
+		  time arrives. The constructor simply stores these parameter values in private fields.
+	   :: In the run method, the Thread.sleep method is called to put the thread to sleep until the desired countdown time arrives. The length of time that
+	      the thread should sleep is calculated by the expression 20000 - (start * 1000). The countdown clock starts at 20 seconds, which is 20,000
+	      milliseconds. This expression simply subtracts the number of milliseconds that corresponds to the desired start time from 20,000. Thus, if the
+	      desired start time is 6 seconds, the sleep method sleeps for 14,000 milliseconds — that is, 14 seconds.
+	   :: When the thread wakes up, it displays the message passed via its constructor on the console.
+
+		Creating Threads That Work Together
+		-----------------------------------
+		
+		***CountDownApp2.java***
+		
+		Using an Executor
+		------------------
+		***CountDownAppNew.java, LaunchEventNew.java, CountDownClockNew***
+
+		Synchronizing Methods
+		----------------------		
+		:: The key to handling concurrency issues is recognizing methods that updates instance variables and that might be called by more than one thread. 
+		:: After identifying those methods, the solution is simple, add the synchronized keyword to the method declaration.
+		:: The threads have a common copy of the method’s instance variables.
+		
+				public synchronized void someMethod()...
+				
+		:: This code tells Java to place a lock on the object so that no other methods can call any other synchronized methods for the object until this method finishes.
+		:: In other words, it temporarily disables multithreading for the object.
+		
+		:: Non Synchronized Examples
+			
+				***DoTwoThings.java, CountDownClock.java***
+				
+		:: Synchronized Examples
+		
+				***DoTwoThingsSync.java, CountDownClockSync.java***
+				
+		:: Synchronizing methods takes time. Java has to acquire a lock on the object being synchronized, run the method, and then release the lock. 
+		   But before it can do that, it has to check to make sure that some other thread doesn’t already have a lock on the object.
+		:: More important, synchronizing all your methods defeats the purpose of multithreading, so you should synchronize only those methods that require it.
+		:: The synchronized keyword doesn’t block all access to an object. Other threads can still run unsynchronized methods of the object while the object is locked
+		:: The Object class provides three methods that can let synchronized objects coordinate their activities. The wait method puts a thread in the waiting state until
+		   some other thread calls either the object’s notify or (more commonly) notifyAll method. These methods are useful when one thread has to wait for another
+		   thread to do something before it can proceed.
+		   
+		Creating a Synchronizing Lock
+		------------------------------
+		:: synchronized keyword is replaced by calls to ReentrantLock
+		:: using a lock is no better than using Java’s synchronized keyword, they all work the same.
+		
+			***CountDownClockLocked.java, DoTwoThingsLocked.java***
+
+
+		Coping with Threadus Interruptus
+		---------------------------------
+		:: You can interrupt another thread by calling its interrupt method, provided that you have a reference to the thread
+		
+				t.interrupt();
+				
+			Finding out whether you’ve been interrupted
+			-------------------------------------------
+			:: In many cases it's appropriate to ignore the "InterruptedException"
+			:: In most cases, the thread should terminate when it’s interrupted
+			:: finding out whether a thread has been interrupted isn’t as easy as it sounds.
+			:: InterruptedException is thrown when another thread calls the interrupt() method on this thread while the thread is not executing
+			:: That’s why the methods that can cause the thread to give up control to another thread throw this exception.
+			:: That way, when the thread resumes execution, you know that it was interrupted.
+			:: The yield and sleep methods aren’t the only way for control to be wrested away from a thread
+			:: Sometimes the thread scheduler just steps in and says, “You’ve had enough time; now it’s someone else’s turn to play"
+			:: If that happens and then some other thread calls your thread’s interrupt method, InterruptedException isn’t thrown. Instead, a special flag 
+			   called the interrupted flag is set to indicate that the thread was interrupted. You can test the status of this flag by calling the static interrupted method.
+
+				public void run()
+				{
+					boolean done = false
+					boolean abort = false;
+					while(!done)
+					{
+					// do the thread_s work here
+					// set done to true when finished
+					try
+						{
+							sleep(100); // sleep a bit
+						}
+					catch(InterruptedException e)
+						{
+							abort = true;
+						}
+						
+					if (Thread.interrupted())
+						abort = true;
+					if (abort)
+					break;
+					}					
+				  }
+			
+			:: Here the boolean variable abort is set to true if InterruptedException is thrown or if the interrupted flag is set. Then, if abort has been set 
+			   to true, a break statement is executed to leave the while loop. 
+			   
+			   
+			Aborting the countdown
+			------------------------
+			
+			***LaunchEventAbort.java, CountDownClockAbort.java, CountDownAppAbort.java
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
