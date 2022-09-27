@@ -1,0 +1,225 @@
+
+Using Arrays
+==============
+
+	Understanding Arrays
+	---------------------
+	:: An array is a set of variables that are referenced by using a single variable name combined with an index number.
+	:: Each item of an array is called an element. 
+	:: All the elements in an array must be of the same type
+	:: Thus the array itself has a type that specifies what kind of elements it can contain.
+	:: An int array can contain int values only, and a String array can contain strings only.
+	:: Index numbers start with zero for the first element
+	
+	:: An array is itself an object. You can refer to the array object as a whole, rather than to a specific element of the array, by 
+	   using the array’s variable name without an index. Thus, if x[5]refers to an element of an array, x refers to the array itself.
+	:: An array has a fixed length that’s set when the array is created. This length determines the number of elements that can be stored in the array. 
+	   The maximum index value you can use with any array is one less than the array’s length. Thus, if you create an array of ten elements, you can use 
+	   index values from 0 to 9.
+	:: You can’t change the length of an array after you create the array. 
+	:: You can access the length of an array by using the length field of the array variable. x.length, for example, returns the length of the array x.
+	
+	Creating Arrays
+	----------------
+	:: Before you can create an array, you must declare a variable that refers to the array. 
+	:: This variable declaration should indicate the type of elements that are stored by the array followed by a set of empty brackets
+	
+		String[] names;
+	
+	:: Above, a variable named names is declared. Its type is an array of String objects
+	:: Java also lets you put the brackets on the variable name rather than on the type
+	
+		int[] array1; // an array of int elements
+		int array2[]; // another array of int elements
+		
+	:: Two ways of creating an array
+		
+		String[] names;
+		names = new String[10];
+		...................................
+		String[] names = new String[10];
+		-----------------------------------
+		String names[] = new String[10];
+		
+	:: If you don’t know how many elements the array needs at compile time, you can use a variable or an expression for the array length
+	
+	Initializing an Array
+	----------------------
+	:: One way to initialize the values in an array is to simply assign them one by one:
+	
+		String[] days = new Array[7];
+		Days[0] = "Sunday";
+		Days[1] = "Monday";
+		Days[2] = "Tuesday";
+		Days[3] = "Wednesday";
+		Days[4] = "Thursday";
+		Days[5] = "Friday";
+		Days[6] = "Saturday";
+		
+	:: Java's sharthand way of an array initializer
+	
+		String[] days = { "Sunday", "Monday", "Tuesday","Wednesday", "Thursday","Friday", "Saturday" };
+		int[] primes = { 2, 3, 5, 7, 11, 13, 17 };
+			
+	:: The length of an array created with an initializer is determined by the number of values listed in the initializer
+	
+	Using for Loops with Arrays
+	----------------------------
+	:: for loops were invented specifically to deal with arrays int[] numbers = new int[100];
+	
+	   for (int i = 0; i < 100; i++){
+	   		numbers[i] = (int)(Math.random() * 100) + 1;
+		
+
+	:: If you don’t have the array length handy, you can get it from the array’s length property:
+	
+		for (int i = 0; i < players.length; i++)
+			System.out.println(players[i]);
+		
+	Solving Homework Problems with Arrays
+	---------------------------------------
+	
+		Example code:: BoboAndTheLockers.java
+		
+	
+	Using the Enhanced for Loop
+	----------------------------
+		for (type identifier : array)
+		{
+			Statements ...
+		}
+		
+	:: The type identifies the type of the elements in the array
+	:: array names the array you want to process
+	
+		String[] days = { "Sunday", "Monday", "Tuesday","Wednesday", "Thursday","Friday", "Saturday" };
+		for (String day : days)
+		{
+			System.out.println(day);
+		}
+
+	Using Arrays with Methods
+	-------------------------
+	:: You can write methods that accept arrays as parameters and return arrays as return values.
+	:: use an empty set of brackets to indicate that the parameter type or return type is an array
+	
+	Using Two-Dimensional Arrays
+	----------------------------
+	:: Two-dimensional arrays are often used to track data in column-and-row format
+	
+	Creating a two-dimensional array
+	--------------------------------
+	::	sales is an array of double arrays.
+	
+		double sales[][] = new double[5][4];
+		
+	:: Here the first dimension specifies that the sales array has five elements. This array represents the rows in the table. The second dimension 
+	   specifies that each of those elements has an array of type double with four elements. This array represents the columns in the table.
+	
+	Accessing two-dimensional array elements
+	----------------------------------------
+	::	To access the elements of a two-dimensional array, you use two indexes.
+		
+		sales[0][0] = 23853.0;
+	::	
+	
+	Initializing a two-dimensional array
+	-------------------------------------
+		
+		example code:: refer to book pg 403 - 404
+		
+	
+		
+	Using jagged arrays
+	---------------------
+		example code:: refer to book pg 405 - 406
+	
+	Going beyond two dimensions
+	----------------------------
+	::	Arrays can be nested within arrays, to as many levels as your program needs.
+	
+		int[][][] threeD = new int[3][3][3];
+		
+	Example: A Chessboard
+	----------------------
+	
+	***Example code: KnightMoves.java***
+	
+	
+
+	Using the Arrays Class
+	-----------------------
+	:: provides a collection of static methods that are useful for working with arrays
+
+		Filling an array
+		-----------------
+		:: static void fill(array, value)
+		
+		:: Used to prefill an array with values other than the default values for the array type
+		:: The value and array must be of the same type and can be any primitive type or an object
+		
+			int[] startValues = new int[10];
+			Arrays.fill(startValues, 100);
+		
+		:: Above, the routine creates an array of integers and initializes each element to 100, instaed of the deafualt for primitive int.
+		:: The fill method evaluates this expression only once & assigns the result of this expression to each element in the array
+
+			int[] ran = new int[1000]
+			Arrays.fill(ran, (int)(Math.random() * 100) + 1);
+			
+		:: The expression above is evaluated once to get a random number; then all 1,000 elements in the array are set to that random number.
+		
+		Copying an array
+		-----------------
+		:: Using the new copyOf and copyOfRange methods, you can copy a bunch of elements from an existing array into a brand-new array.
+		
+			***Example Code: CopyDemo.java***
+			
+		Sorting an array
+		------------------
+		:: The sort method is a quick way to sort an array in sequence. 
+		:: These create an array with 100 random numbers and then sort the array in sequence so that the random numbers are in order.
+			
+				int[] lotto = new int[6];
+				for (int i = 0; i < 6; i++)
+				lotto[i] = (int)(Math.random() * 100) + 1;
+				Arrays.sort(lotto);
+				
+		Searching an array
+		------------------
+			int lucky = 13;
+			int foundAt = Arrays.binarySearch(lotto, lucky);
+			if (foundAt > -1)
+				System.out.println("My number came up!");
+			else
+				System.out.println("I'm not lucky today.");
+				
+			***Refer to book for standard search & binary search: page 419***
+
+		Comparing arrays
+		-----------------
+		:: If you use the equality operator (==) to compare array variables, the array variables are considered to be equal only if both variables 
+		   point to exactly the same array instance.		
+		
+			if (Arrays.equal(array1, array2))
+				System.out.println("The arrays are equal!")
+
+		::Here the arrays array1 and array2 are compared element by element. If both arrays have the same number of elements, and all elements 
+		  have the same value, the equals method returns true. If the elements are not equal, or if one array has more elements than the other, 
+		  the equals method returns false.
+		  
+		:: If the array has more than one dimension, you can use the deepEquals method instead. It compares any two subarrays, element by element, 
+		   to determine whether they’re identical.
+
+		Converting arrays to strings
+		----------------------------
+		:: The toString method of the Arrays class is handy if you want to quickly dump the contents of an array to the console to see what it contains
+      	   This method returns a string that shows the array’s elements enclosed in brackets, with the elements separated by commas.
+
+				int[] lotto = new int[6];
+				for (int i = 0; i < 6; i++)
+					[i] = (int)(Math.random() * 100) + 1;
+				System.out.println(Arrays.toString(lotto));
+				
+		:: Note that the toString method works only for one-dimensional arrays. To print the contents of a two-dimensional array with the toString method, 
+		   use a for loop to call the toString method for each subarray.
