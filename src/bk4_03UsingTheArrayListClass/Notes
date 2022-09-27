@@ -1,0 +1,177 @@
+
+Using The Array List Class
+---------------------------
+	:: The generics feature lets you create list objects, such as ArrayList or LinkedList, that are bound to a specific data type, such as strings or integers.
+
+	Understanding the ArrayList Class
+	----------------------------------
+		:: An array list is the most basic type of Java collection
+		:: An array list automatically resizes itself whenever necessary, with no limit.
+		:: An array list lets you insert elements into the middle of the collection.
+		:: An array list lets you delete items, with the size of the array reducing.
+		:: The ArrayList class actually uses an array internally to store the data you add to the array list.
+		   The ArrayList class takes care of managing the size of this array.
+		   
+		   		***The ArrayList Class methods: page 425-426***
+		   		
+	Creating an ArrayList Object
+	-----------------------------
+	
+		ArrayList signs = new ArrayList();
+		
+	:: an array list doesn’t make you specify a capacity — though you can if you want.
+	
+		ArrayList signs = new ArrayList(100);
+		
+	:: If you don’t specify a capacity for the array list, the initial capacity is set to 10.
+	:: The capacity of an array list is not a fixed limit. The ArrayList class automatically increases the list’s capacity whenever necessary.
+	
+		ArrayList<String> signs = new ArrayList<String>();
+		
+	:: The statement above creates an array list that holds String object types only
+	
+	Adding Elements
+	------------------
+	:: After creating an array list, you can use the add method to add objects to the array list.
+	
+		signs.add("Drink Pepsi");
+		signs.add("No minors allowed");
+		signs.add("Say Pepsi, Please");
+		
+	:: If you specified a type when you created the array list, the objects you add via the add method must be of the correct type.
+	
+		ArrayList<String> nums = new ArrayList<String>();
+		nums.add("One");
+		nums.add("Two");
+		nums.add("Three");
+		nums.add("Four");
+		nums.add(2, "Two and a half");
+		
+	:: Like arrays, array lists are indexed starting with zero.
+	:: The add method that inserts elements at a specific index position throws the unchecked exception IndexOutOfBoundsException if an 
+	   object isn’t already at the index position specified.
+	   
+	Accessing Elements
+	-------------------
+	:: Use the get method which specifies the index value of the element you want to retrieve.
+	
+		for (int i = 0; i < nums.size(); i++)
+			System.out.println(nums.get(i));
+			
+	:: Here the size method is used to set the limit of the for loop’s index variable.
+	
+		for (String s : nums)
+			System.out.println(s);
+			
+	
+	Printing an ArrayList
+	----------------------
+	:: The toString method of the ArrayList class (as well as other collection classes) is designed to make it easy to quickly print out the contents of the list.
+	:: Returns the contents of the array list enclosed in a set of brackets, with each element value separated by commas
+		
+		ArrayList<String> nums = new ArrayList<String>();
+		nums.add("One");
+		nums.add("Two");
+		nums.add("Three");
+		nums.add("Four");
+		System.out.println(nums);
+		
+	Using an Iterator
+	------------------
+	:: An iterator object implements the Iterator interface
+	:: An iterator is a special type of object whose sole purpose in life is to let you step through the elements of a collection.
+	:: use the enhanced for loop statement instead of iterators
+	
+		hasNext() : Returns true if the collection has at least one element that hasn’t yet been retrieved
+		next()    : Returns the next element in the collection
+		remove()  : Removes the most recently retrieved element
+		
+	:: To use an iterator, you first call the array list’s iterator method to get the iterator. Then you use the iterator’s hasNext and next methods to 
+	   retrieve each item in the collection. The normal way to do that is with a while loop.
+	   
+		   	ArrayList<String> nums = new ArrayList<String>();
+			nums.add("One");
+			nums.add("Two");
+			nums.add("Three");
+			nums.add("Four");
+			
+			String s;
+			Iterator e = nums.iterator();
+			while (e.hasNext())
+			{
+				s = (String)e.next();
+				System.out.println(s);
+			}
+			
+	:: object returned by the next method must be cast to a String. That’s because the Iterator interface has no knowledge of the type of objects 
+	   stored in the collection.
+	:: it simply returns an Object. You must cast this object to the correct type before you can use it
+	
+		***THE ITERATOR PATTERN: page 431 ***
+		
+		
+	Updating Elements
+	--------------------
+	:: You can use the set method to replace an existing object with another object.
+	
+		***ArrayListUpdate.java***
+		
+	:: Because array lists contain references to objects, not the objects themselves, any changes made to an object in an array list are automatically 
+	   reflected in the list.
+	   
+		***ArrayListUpdate2.java***
+	
+	Deleting Elements
+	------------------
+	:: To remove all the elements, use the clear method
+	   
+	   emps.clear();
+	   
+	:: To remove a specific element, use the remove method. It lets you remove an element based on the index number
+	
+		emps.remove(0);
+		
+	:: The clear and remove methods don’t actually delete objects; they simply remove the references to the objects from the array list. Like any other
+	   objects, the objects in a collection are deleted automatically by the garbage collector — and then only if the objects are no longer being referenced by
+		the program.
+	:: You can remove more than one element at the same time by using the removeRange method. On it, you specify the starting and ending index
+		numbers. (Note that this method removes all elements between the elements you specify, but the elements you specify aren’t themselves removed.
+		removeRange(5, 8), for example, removes elements 6 and 7, but elements 5 and 8 aren’t removed.)
+	:: You can also use the removeAll method to remove all the objects in one collection from another collection. A similar method, retainAll, removes all
+		the objects that are not in another collection.
+	
+	
+	
+	https://www.falkhausen.de/Java-8/java.util/Collection-Queue.html
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
