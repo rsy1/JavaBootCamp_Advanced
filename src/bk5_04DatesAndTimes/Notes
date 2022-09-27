@@ -1,0 +1,221 @@
+
+Working with Dates and Times (Date-Time API)
+=============================================
+	:: http://download.java.net/jdk9/docs/api/index.html
+	
+	Using the parse Method to Create a Date-Time Object
+	----------------------------------------------------
+	:: Another way to create a Date-Time object is to use the static parse method, which creates a Date-Time object from a string that represents a 
+	   specific date or time.
+				
+				LocalDate d = LocalDate.parse("2014-12-15");
+				
+	:: To create a LocalDateTime object that represents a specific time on a specific date, use the parse method.
+	
+				LocalDateTime dt; 
+				dt = LocalDateTime.parse("2014-12-15T15:45:13.5");
+				
+	:: The letter T separates the date from the time, and the time is expressed in 24-hour clock format
+	:: Here the time is set to 13.5 seconds after 2:45 p.m.
+	
+	:: If the string is not in the correct format, the parse method throws a DateTimeParseException. 
+	:: Whenever you use the parse method, you should enclose it in a try block and catch this exception
+	
+				LocalDateTime dt;
+				try
+				{
+					dt = LocalDateTime.parse("2014-12-15T03:45PM");
+				}
+				catch (DateTimeParseException ex)
+				{
+					System.out.println(ex.toString());
+				}
+				
+	:: The parse method is especially useful for converting user input to a Date-Time object.
+	:: The input can be read from user input using the Scanner, or you can use parse from GUI/web application to read a date from a text box.
+	:: Prompt the user with the expected date format and catch DateTimeParseException in case the user enters the date in the wrong format.
+	
+	Using the of() Method to Create a Date-Time Object
+	----------------------------------------------------
+	:: A third way to create Date-Time objects is to use the static of method to create a Date-Time object from its constituent parts.
+	:: You can create a LocalDate object by supplying integers that represent the year, month, and day like this:
+	
+				LocalDate date = LocalDate.of(2014,12,15);
+				
+	Using the Month enumeration
+	----------------------------
+	:: Month is an enumeration that represents the twelve months of the year,
+				
+				Month.JANUARY Month.MAY Month.SEPTEMBER
+				Month.FEBRUARY Month.JUNE Month.OCTOBER
+				Month.MARCH Month.JULY Month.NOVEMBER
+				Month.APRIL Month.AUGUST Month.DECEMBER
+				
+	:: Thus you can create a date like this:
+	
+				LocalDate date = LocalDate.of(2014,Month.DECEMBER,15);
+				
+				System.out.println("December hath " + Month.DECEMBER.length(false) + " days.");
+				
+	:: The boolean argument in the length method indicates whether the calculation should be for a leap year.
+	
+	Using the ZoneId class
+	----------------------
+	:: To create a ZonedDateTime, you must first create a time zone object by using the ZoneId class.
+	:: To create a time zone, you must know the standard name of the time zone you want to create.
+	
+				for (String id : ZoneId.getAvailableZoneIds())
+					System.out.println(id);
+					
+	:: Once you know the name of the ZoneId you want to use, you can create it using ZoneId.of , then use it to create a ZonedDateTime as in this example:
+	
+				ZoneId z = ZoneId.of("America/Los_Angeles");
+				ZonedDateTime zdate;
+				zdate = ZonedDateTime.of(2014, 12, 15, 0, 0, 0, 0, z);
+						OR
+				zdate = ZonedDateTime.of(2014, 12, 15, 0, 0, 0, 0, ZoneId.of("America/Los_Angeles"));
+				
+	Using the ZoneOffset class
+	-----------------------------
+	:: The of method OffsetTime and OffsetDateTime classes use an additional class named ZoneOffset to indicate the offset from UTC
+	:: You can create a ZoneOffset by using any of the following methods of the ZoneOffset class
+	
+				of(String offsetId)
+				ofHours(int hours)
+				ofHoursMinutes(int hours, int minutes)
+				ofHoursMinutesSeconds(int hours, int minutes, int seconds)
+				ofTotalSeconds(int totalSeconds)
+				
+	:: you can create a ZoneOffset of -8 hours like this:
+	
+				ZoneOffset z = ZoneOffset.ofHours(-8);
+						OR
+				ZoneOffset z = ZoneOffset.of("-08:00");
+					
+	:: When you use a string offset, you must provide two digits for the hours, minutes
+	:: Once you have a ZoneOffset object, you can use it to create an OffsetTime
+	
+				OffsetTime time = OffsetTime.of(10, 30, 0, 0, z);
+							OR
+				OffsetTime time = OffsetTime.of(10, 30, 0, 0, ZoneOffset.ofHours(-8));
+				
+	
+	Looking Closer at the LocalDate Class
+	--------------------------------------
+	:: This class represents a date (year, month, and day) without an associated time
+	:: Learn how to use many of the methods of this class to extract information about a date, 
+	:: To compare two dates, and to perform calculations on a date.
+	
+	Extracting Information About a Date
+	--------------------------------------
+	:: Several methods of the LocalDate class let you extract useful information about a given date. For instance, the following example shows how you can extract
+	   the current year, month, and day:
+	   
+				LocalDate date = LocalDate.now();
+				int year = date.getYear();
+				int month = date.getMonthValue();
+				int day = date.getDayOfMonth();
+				
+	:: If you need to know how many days into the year a particular date is, you can use this code:
+				
+				LocalDate date = LocalDate.parse("2016-04-09");
+				System.out.println(date.getDayOfYear());
+				
+	:: The getDayOfWeek method returns a value of type DayOfWeek, which is an enumeration with the following values:
+	
+				SUNDAY THURSDAY
+				MONDAY FRIDAY
+				TUESDAY SATURDAY
+				WEDNESDAY
+				
+	Comparing Dates
+	-----------------
+	:: You can’t compare Date-Time objects using Java’s standard comparison operators.
+	
+				if (LocalDate.now() == LocalDate.now())
+					System.out.println("All is right in the universe.");
+				else
+					System.out.println("There must be a disturbance " +	"in the space-time continuum!");
+	
+	:: The above will never be equal because its testing objects against each other.
+	:: To test the equality of two dates, you must use the isEqual method
+	
+				if (LocalDate.now().isEqual(LocalDate.now()))
+					System.out.println("All is right in the universe.");
+					
+	Calculating with Dates
+	-----------------------
+	:: You can perform addition and subtraction on dates using the various plus and minus methods, and you can determine the difference
+	   between two dates by using the until method.
+	:: An important fact to consider when doing date and time calculations is that Date-Time objects are immutable
+	:: That means that once you create a Date-Time object, you cannot change its value. 
+	:: When you perform a calculation on a Date-Time object, the result is a new Date-Time object with a new value.
+	:: The plus and minus methods let you add various date and time units to a Date-Time object.
+	
+				System.out.println("Today: " + LocalDate.now());
+				System.out.println("Tomorrow: " + LocalDate.now().plusDays(1));
+				System.out.println("Next week: " + LocalDate.now().plusWeeks(1));
+				System.out.println("Next month: " + LocalDate.now().plusMonths(1));
+				System.out.println("Next year: " + LocalDate.now().plusYears(1));
+					
+	:: To determine the difference between two dates, use the until method.
+	:: It calculates the difference between a date and the date passed as the first parameter, measured in the units indicated by the second parameter
+	
+				LocalDate date1 = LocalDate.parse("2014-05-16");
+				LocalDate date2 = LocalDate.parse("2014-12-15");
+				System.out.println(date1.until(date2, ChronoUnit.DAYS));
+	
+	Formatting Dates
+	-----------------
+	:: The easiest way to create a DateTimeFormatter object is to use the static of Pattern method along with a pattern string
+	
+				DateTimeFormatter formatter;
+				formatter = DateTimeFormatter.ofPattern("dd MMM YYYY");
+	
+	:: This formatter produces dates formatted like 04 SEP 2014. 
+	:: You can then use the formatter to produce a formatted date string like this:
+	
+				LocalDate date = LocalDate.now();
+				String formattedDate = date.format(formatter);
+				
+	
+	
+	Looking at a Fun Birthday Calculator
+	----------------------------------------
+	
+			***BirthDayFun.java***
+					
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
