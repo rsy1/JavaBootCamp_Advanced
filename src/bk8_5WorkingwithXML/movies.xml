@@ -1,0 +1,12 @@
+<Movies>
+	<Movie>
+		<Title>It's a Wonderful Life</Title>
+		<Year>1946</Year>
+		<Price>14.95</Price>
+	</Movie>
+	<Movie>
+		<Title>Young Frankenstein</Title>
+		<Year>1974</Year>
+		<Price>16.95</Price>
+	</Movie>
+</Movies>

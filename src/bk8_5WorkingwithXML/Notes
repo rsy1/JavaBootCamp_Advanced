@@ -1,0 +1,109 @@
+
+Working with XML (Extensible Markup Language)
+==============================================
+:: The basics of reading an XML document into memory and extracting data from it.
+:: XML is a way to store and exchange information in a standardized way that’s easy to create, retrieve, and transfer between
+   different types of computer systems or programs
+	
+	Defining XML
+	------------- 
+	:: XML Unlock the vast warehouses of data that are locked up in the vaults of corporate mainframe computers
+	:: Enable every electronic device on the planet, from the most complex supercomputers to desktop computers to 
+	   cellphones to wristwatches, to communicate with one another
+	:: Allow every computer program ever written to exchange data with every other computer program ever written
+	
+	Tags
+	-----
+	:: XML uses tags to mark the data just like HTML
+		
+		<Book>
+			<Title>Java All-In-One For Dummies</Title>
+			<Author>Lowe</Author>
+		</Book>
+		
+	:: XML defines an element called Book, which contains information for a single book
+	:: The Book element in turn contains two subordinate elements: Title and Author.
+	:: Each element begins with a tag that lists the element’s name which is called start tag
+	:: The element ends with an element that repeats the element name, preceded by a slash — an end tag.
+	:: Everything that appears between the start tag and the end tag is the element’s content, which can consist of text data or of 
+	   one or more additional elements.
+	:: The additional elements nested within an element are called child elements
+	:: The element that contains them is called the parent element
+	:: The highest-level element in an XML document is called the root element
+	:: A properly formed XML document consists of a single root element, which can contain elements nested within it.
+		
+			***movies.xml***
+			
+	:: Here the root element named Movies contains two Movie elements, each of which contains Title, Year, and Price elements
+	
+	Attributes
+	------------
+	:: Instead of using child elements, you can use attributes to provide data for an element.
+	:: An attribute is a name-and-value pair that’s written inside the start tag for an element.
+	:: Here’s a Movie element that uses an attribute instead of a child element to record the year:
+			
+			<Movie year="1946">
+				<Title>It's a Wonderful Life</Title>
+				<Price>14.95</Price>
+			</Movie>
+
+	:: Whether you use attributes or child elements is largely a matter of personal preference(but elements are recomended)
+				***movies1.xml***
+
+	DTD(Document Type Definition)
+	------------------------------
+	:: The main purpose of the DTD is to spell out the structure of an XML document so that users of the document know how to interpret it.
+	:: Another, equally important use of the DTD is to validate the document to make sure that it doesn’t have any structural errors.
+	:: An XML document can have a DTD, which spells out exactly what elements can appear in an XML document and in what order the elements can appear.
+	:: A DTD for an XML document about movies, for example, may specify that each Movie element must have Title and Price subelements and an attribute named year.
+	:: It can also specify that the root element must be named Movies and consist of any number of Movie elements
+			    ***movies.dtd***
+			    
+		<!ATTLIST Movie year CDATA #REQUIRED>
+		
+	::This declaration indicates that the attribute goes with the Movie element, is named year, can be any kind of data, and is required.
+	
+		<!ATTLIST Movie genre (SciFi|Action|Comedy|Drama) Comedy>
+		
+	:: Here’s an ATTLIST tag that specifies a list of possible values along with a default:
+	:: This form of the ATTLIST tag lets you create an attribute that’s similar to an enumeration, with a list of acceptable values.
+	
+	Processing XML in Two Ways:(DOM and SAX)
+	-----------------------------------------
+	1. DOM: Stands for Document Object Model. The basic idea of DOM is that you read an entire XML document from a file into memory, where the document
+		    is stored as a collection of objects that are structured as a tree. Then you can process the elements of the tree (called nodes) however you want. 
+		    If you change any of the nodes, you can write the document back to a file.
+	2. SAX: Stands for Simple API for XML. SAX is a read-only technique for processing XML that lets you read the elements of an XML document from a file and
+	        react to them as they come. Because SAX doesn’t require you to store an entire XML document in memory at one time, it’s often used for very large
+			XML documents.
+			
+			***DOM-DocumentTree.png***
+			
+	Reading a DOM Document
+	-----------------------
+	:: Before you can process a DOM document, you have to read the document into memory from an XML file
+	
+	Creating a DocumentBuilderFactory (pg 870)
+	-------------------------------------------
+	Configuring the DocumentBuilderFactory (pg 870)
+	-----------------------------------------------
+	Creating a document builder and the document (pg 871)
+	------------------------------------------------------	
+		***ReadXML.java***
+		
+	Reading DOM Nodes
+	-----------------
+	:: After you have a DOM document in memory, you can easily retrieve data from the document’s nodes. 
+	:: The DOM API is based on interfaces rather than classes, so each node of the DOM document is represented by an 
+	   object that implements one or more DOM interfaces.
+	   
+	   ***TheNodeInterface.png, TheElementInterface.png*** (pg 872 - 874)
+	   
+	   Processing elements (pg 874)
+	   -------------------------------
+	   Getting attribute values (pg 875)
+	   -------------------------------
+	   Getting child element values (pg 876 - 880)
+	   -------------------------------------------
+	   
+	   
