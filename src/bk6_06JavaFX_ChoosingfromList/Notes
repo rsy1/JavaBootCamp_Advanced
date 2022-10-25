@@ -1,0 +1,93 @@
+
+Choosing from a List
+=====================
+    Using Choice Boxes
+    --------------------
+    :: A choice box is a control that lets the user choose an item from a drop-down list.
+    :: When the user clicks the choice box, the list of choices reveals.
+    :: You use the ChoiceBox class to create choice boxes
+    Creating a choice box
+    ---------------------
+    :: The ChoiceBox class is generic, so specify a type for the list that will b e associated with the choice box
+            ChoiceBox<String> choice = new ChoiceBox<String>();
+    :: The next step is to add items to the choice box
+                    choice.getItems().add("Bashful");
+                    choice.getItems().add("Doc");
+                    choice.getItems().add("Dopey");
+                    choice.getItems().add("Grumpy");
+    :: you could call the addAll method and add all the strings at once
+                    choice.getItems().addAll("Bashful", "Doc", "Dopey", "Grumpy", "Happy", "Sleepy", "Sneezy");
+    :: The getItems method returns an object of type ObservableList, which offers a number of methods that let you work with the list.
+    :: The ChoiceBox class also includes a constructor that lets you add an Observable List object when you create the choice box
+    :: This lets you create the list before you create the choice box.
+    :: You can add any kind of object you want to a choice box.
+    :: The choice box calls the toString method of each item to determine the text to display in the choice list.
+
+    Working with Observable Lists
+    ------------------------------
+    :: ObservableList class extends the List class, which is implemented by classes, such as ArrayList and Vector
+    :: As a result, any method that can be used with an ArrayList can also be used with an ObservableList
+    :: ChoiceBox class have a method named getItems() that returns an object of type ObservableList.
+    :: The ObservableList represents the list displayed by the choice box.
+    :: To work with the items displayed by a choice box, you must first access the observable list and then use methods of the
+       ObservableList class to access the individual items in the list.
+    :: Observable lists are also used by other control classes that display list items, such as ComboBox and List and layoutPanels such as HBox and VBox.
+    :: Both of those classes also have a getItems() method that returns an ObservableList.
+    :: The getChildren method that’s common to all layout classes returns an ObservableList.
+    :: You insert items from an existing Java collection, such as an array list, into a choice box by specifying the collection in the addAll method.
+                    cbox.getItems().addAll(list);
+
+    Listening for Selection Changes
+    ---------------------------------
+    :: The choice box and other list controls don’t generate an action event when the user changes the selection.
+    :: the ChoiceBox class does’t have a setOnAction method
+    :: You must use a complicated sequence of method calls to set up a different type of event listener, called a change listener
+       1. Get the selection model by calling the getSelectionModel() method on the choice box.
+       2. Get the selectedItem property by calling the selectedItemProperty() method on the selection model.
+       3. Add a change listener by calling the addListener() method on the selected Item property.
+
+                choice.getSelectionModel().selectedItemProperty().addListener( (v, oldValue, newValue) -> lbl.setText(newValue); );
+
+       :: ChangeListerner defines a single function named changed, which is called whenever the value of the property changes.
+       :: The changed method receives three arguments:
+            1. observable: The property whose value has changed
+            2. oldValue: The previous value of the property
+            3. newValue: The new value of the property
+       :: These three parameters are specified in the parentheses at the beginning of the Lambda expression.
+
+       Using Combo Boxes
+       ------------------
+       :: You use the ComboBox class to create combo boxes
+       :: A combo box is a more advanced sibling to the choice box control
+       :: A combo box includes the ability to limit the number of items displayed when the list is shown.
+       :: A combo box includes a text field (optional) that lets the user enter a value directly rather than select the value from a list.
+       :: A combo box fires an action event whenever the user changes the selection.
+       Creating combo boxes
+       :: Creating a combo box is much like creating a choice box.
+       :: Because the ComboBox is generic, specify a type for the items it will contain,
+                    ComboBox<String> cbox = new ComboBox<String>();
+       :: Use the getItems method to access the ObservableList object that contains the content of the list displayed by the combo box.
+                        cbox.getItems().addAll("Bashful", "Doc", "Dopey","Grumpy", "Happy", "Sleepy", "Sneezy");
+
+       Handling combo box events (page 693)
+       -------------------------------------
+       Using List Views (page 694)
+       -----------------------------
+       Creating a list view (695)
+       ----------------------------
+       Getting the selected items (page 696)
+       --------------------------------------
+       Using Tree Views (page 696)
+       -----------------------------
+       Building a tree (698)
+       ---------------------
+       Creating a TreeView control (page 701)
+       --------------------------------------
+       Getting the selected node (page 702)
+       ---------------------------------------
+
+
+
+
+
+
