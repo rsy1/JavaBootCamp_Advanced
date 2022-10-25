@@ -1,0 +1,119 @@
+
+Using JDBC to Connect to a Database
+====================================
+:: JDBC — Java Database Connectivity
+:: A Java feature that lets you connect to almost any relational database system, execute SQL commands, and process the results, all from within a Java program.
+
+		Connecting to a Database
+		-------------------------
+		:: Before you can use JDBC to access a SQL database, you must first establish a connection to the database
+		:: The first step to establishing a connection involves registering the driver class so the class is available.
+				
+				***DBConnection.java***
+				
+		Querying a Database
+		--------------------
+		:: After you establish a connection to a database, you can execute select statements to retrieve data.
+		
+				1. Connection: The Connection class has two methods you’re likely to use. 
+				   The close method closes the connection, and the createStatement method returns a Statement object, which you then use to execute statements.
+				   
+				2. Statement: The Statement interface contains the methods necessary to send statements to the database for execution and return the results. 
+				   In particular, you use the executeQuery method to execute a select statement or the executeUpdate method to execute an insert, update, or delete statement.
+
+				3. ResultSet: The ResultSet interface represents rows returned from a query. It provides methods you can use to move from row to row and to 
+				   get the data for a column.
+				   
+		:: The first parameter of the createStatement method specifies the type of result set that is created, and can be one of the following:
+		
+					ResultSet.TYPE_FORWARD_ONLY
+					ResultSet.TYPE_SCROLL_INSENSITIVE
+					ResultSet.TYPE_SCROLL_SENSITIVE
+					
+		:: The second parameter indicates whether the result set is read-only or updatable, and can be one of the following:
+		
+					ResultSet.CONCUR_READ_ONLY
+					ResultSet.CONCUR_UPDATABLE
+					
+		Executing a select statement
+		-----------------------------
+		:: The following snippet executes a select statement and gets the result set:
+		
+					Statement s = con.createStatement();
+					String select = "Select title, year, price " + "from movie order by year";
+					ResultSet rows = s.executeQuery(select);
+					
+		:: Here the result set is stored in the rows variable.
+		
+		Navigating through the result set
+		----------------------------------
+		:: The ResultSet object returned by the executeQuery statement contains all the rows that are retrieved by the select statement. 
+		:: You can access only one of those rows at a time. The result set maintains a pointer called a cursor to keep track of the current row
+		:: The following snippet shows how you can structure code that processes each row in a result set:
+		
+					while(rows.next())
+					{
+					// process the current row
+					}
+		
+		Getting data from a result set
+		-------------------------------
+		
+				***ListMovies.java***
+		
+		Updating SQL Data
+		------------------
+		:: Besides executing select statements, you can also use a Statement object to execute insert, update, or delete statements as well.
+		:: call the executeUpdate method instead of the executeQuery method.
+		:: This method returns an int value that indicates how many rows were updated.
+		
+				***UpdateSQLData.java***
+				
+		Using an Updatable RowSet Object
+		---------------------------------
+		:: With an updatable result set, you can change data in a result set row, add a row to the result set, or delete a row from the result set.
+		:: the updates are automatically written back to the underlying database.
+		:: To create an updatable result set, you must specify the ResultSet.CONCUR_UPDATABLE field on the createStatement method when you create 
+		   the Statement object,
+		   
+		   			Statement stmt = con.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE, ResultSet.TYPE_CONCUR_UPDATABLE);
+		   			
+		:: The first parameter indicates that the result set is scrollable, which means you can move the cursor backward and forward through the result set.
+		:: This parameter also indicates that the result set can be synchronized with the database so that any changes made by other users are reflected in the result set.
+		:: The second parameter indicates that the result set is updatable, and any changes you make to the result set are automatically written back to the database.
+		
+					***Methods for Scrollable Result Sets.png, Methods for Updatable Result Sets.png***
+					
+		Deleting a row
+		---------------
+			***page858***
+		
+		Updating the value of a row column
+		------------------------------------
+				***page 858***
+		
+		Update Methods of the ResultSet Interface
+		-------------------------------------------
+		    ***page 859***
+		
+		Inserting a row
+		-----------------
+		    ***page 859***
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+
+
+
+
