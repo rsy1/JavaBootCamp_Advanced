@@ -1,0 +1,91 @@
+Setting the Stage and Scene Layout
+===================================
+    Examining the Stage Class
+    --------------------------
+    :: When a JavaFX application is launched, a stage known as the primary stage is automatically created
+    :: A reference to this stage is passed to the application’s start() method via the primaryStage parameter
+    :: You can then use the primary stage to create the application’s user interface by adding a scene
+        which contains one or more controls or other user-interface nodes.
+    :: For many (if not most) applications, the only three methods you need to use are setScene(), setTitle(), and show()
+    :: If you want to prevent the user from resizing the stage, use the setResizable() method
+                    primaryStage.setResizable(false);
+    :: If the stage is resizable, you can set the minimum and maximum size for the window
+                    primaryStage.setResizable(true);
+                    primaryStage.setMinWidth(200);
+                    primaryStage.setMinHeight(200);
+                    primaryStage.setMaxWidth(600);
+                    primaryStage.setMaxHeight(600);
+    :: If you want to display the stage in a maximized window, call setMaximized:
+                    primaryStage.setMaximized(true);
+    :: If you want the stage to completely take over the screen with no such decorations like (title bar, window borders, minimum, restore & close buttons), use the setFullScreen()
+                    primaryStage.setFullScreen(true);
+    :: When your stage enters fullscreen mode, JavaFX displays a message advising the user on how to exit fullscreen mode.
+    :: If, for some reason, you want to start your program minimized to an icon, use the setIconified() method:
+                    primaryStage.setIconified(true);
+    :: The initModality() and initStyle() methods can be called only before you call the show() method.
+
+    Examining the Scene Class
+    --------------------------
+    :: In every JavaFX program, you use at least one instance of the Scene class to hold the user-interface controls that your users will
+       interact with as they use your program.
+    :: All the Scene class constructors() require that you specify the root node.
+    :: You can change the root node later by calling the setRoot() method, but it’s not possible to create a scene without a root node.
+    :: You can set the scene’s initial size when you create it by specifying the Width and Height parameters
+    :: If you don’t set the size, the scene will determine its own size based on its content.
+    :: You can retrieve the size of the scene via the getHeight and getWidth methods.
+    :: In general, the size of the scene determines the size of the stage,
+    :: If the user resizes the stage, the size of the scene is resized accordingly.
+
+    Switching Scenes
+    ------------------
+    :: The primary stage of a JavaFX program (or any other stage, for that matter) can have only one scene displayed within it at any given time.
+    :: You can create several scenes and then swap them as needed by creating two distinct scenes, one for each view
+    :: To switch the user between views, you simply call the stage’s setScene() method to switch the scene.
+                ***SceneSwitcher.java***
+    Creating an Alert Box
+    ----------------------
+    :: JavaFX provides a simple means of displaying a basic message box by using the Alert class, which is similar to the JOptionPane class
+    :: The AlertType parameter lets you specify one of several types of Alert dialogs
+        1. AlertType.CONFIRMATION, which prompts the user to confirm an action.
+        2. AlertType.ERROR, which display an error message.
+        3. AlertType.INFORMATION, which displays an information dialog box.
+        4. AlertType.WARNING, which displays a warning message.
+        5. AlertType.NONE, which display a generic alert dialog.
+
+        Alert a = new Alert(Alert.AlertType.INFORMATION, "You have clicked once.");
+        a.showAndWait();
+                ***ClickCounterAlert.java***
+
+    Exit, Stage Right
+    ------------------
+    Creating a Close button
+    -------------------------
+            Button btnClose = new Button();
+            btnClose.setText("Close");
+            btnClose.setOnAction( e -> primaryStage.close() );
+
+            private void btnClose_Click()
+            {
+                boolean reallyQuit = false;
+                reallyQuit = ConfirmationBox.show(
+                    "Are you sure you want to quit?",
+                    "Confirmation",
+                    "Yes", "No");
+                if (reallyQuit)
+                {
+                    // Perform cleanup tasks here
+                    // such as saving files or freeing resources
+                    stage.close();
+                }
+            }
+
+    Handling the CloseRequest event
+    -------------------------------
+            btnClose.setText("Close");
+            btnClose.setOnAction( e -> btnClose_Click () );
+            primaryStage.setOnCloseRequest( e -> btnClose_Click () );
+                    ***ClickCounterExit.java***
+
+
+
+
