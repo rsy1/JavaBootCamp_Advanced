@@ -1,0 +1,239 @@
+
+WorkingwithFileStreams
+========================
+
+	http://download.java.net/jdk9/docs/api
+	
+	Understanding Streams
+	---------------------
+	:: A stream is simply a flow of characters to and from a program
+	:: The other end of the stream can be anything that can accept or generate a stream of characters, including a console window, a printer, 
+	   a file on a disk drive, or even another program.
+	:: Streams have no idea of the structure or meaning of your data; a stream is just a sequence of characters.
+	
+			Two Types of Java stream I/O
+			-----------------------------
+			1. Character streams: Character streams read and write text characters that represent strings.
+			   =: You can connect a character stream to a text file to store text data on a hard drive
+			   =: Typically, text files use special characters called delimiters to separate elements of the file.
+			   =: • A comma-delimited file uses commas to separate individual fields of data.
+			   =: • A tab-delimited file uses tabs to separate fields.
+			   
+			2. Binary streams: Binary streams read and write individual bytes that represent primitive data types.
+			   =: You can connect a binary stream to a binary file to store binary data on a hard drive.
+			   =: The contents of binary files make perfect sense to the programs that read and write them
+			   
+	Reading Character Streams
+	-------------------------
+	-------------------------
+				::To read a text file through a character stream, you usually work with the following classes:
+				1. File: The File class, 
+				   =: which represents a file on a hard drive. 
+				   =: In file I/O applications, the main purpose of the File class is to identify the file you want to read from or write to.
+				   
+				2. FileReader: The FileReader class 
+				   =: which provides basic methods for reading data from a character stream that originates from a file.
+				   =: It provides methods that let you read data one character at a time.
+				   =: You don't work directly with this class, 
+				   =: you create a FileReader object to connect your program to a file and then pass that object to the constructor of the BufferedReader class
+				      which provides more efficient access to the file.
+				      
+				3. BufferedReader: This class 
+				   =: “wraps” around the FileReader class to provide more efficient input
+				   =: This class adds a buffer to the input stream that allows the input to be read from the hard drive in large chunks rather than a byte at
+					  a time, which can result in a huge improvement in performance
+				   =: The BufferedReader class lets you read data one character at a time or a line at a time.
+				   =: you read data one line at a time and then use Java’s string-handling features to break the line into individual fields
+				   
+			Creating a BufferedReader
+			--------------------------			
+				***ReadFil.javae***
+				
+	Writing Character Streams
+	-------------------------
+	-------------------------
+			:: The usual way to write data to a text file is to use the PrintWriter class
+			:: To do that, you work with three classes
+			
+				1. FileWriter: 
+				   =: The FileWriter class connects to a File object but provides only rudimentary writing ability.
+				 
+				2. BufferedWriter: 
+				   =: This class connects to a FileWriter and provides output buffering. 
+				   =: Without the buffer, data is written to the hard drive one character at a time. 
+				   =: This class lets the program accumulate data in a buffer and writes the data only when the buffer is filled or 
+				      when the program requests that the data be written.
+				   
+				3. PrintWriter: 
+				   =: This class connects to a Writer, which can be a Buffered Writer, a FileWriter, or any other object that extends the abstract Writer class. 
+				   =: Most often, you connect this class to a BufferedWriter.
+				   
+			:: The PrintWriter class is the only one of these classes whose methods you usually use when you write data to a file.
+			
+			Connecting a PrintWriter to a text file
+			---------------------------------------
+			:: To connect a character stream to an output file, you first create a File object for the file,
+			:: Then you call the PrintWriter constructor to create a PrintWriter object that you can use to write to the file.
+			:: This constructor wraps around a BufferedWriter object, which in turn wraps around a FileWriter object
+			
+						File file = new File("movies.txt");
+						PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(file) ) );
+			
+			:: The basic idea going on here is that each of the classes is adding a capability to the class it wraps.
+			:: At the bottom is the FileWriter class, which has the ability to write characters to a file. 
+			:: The BufferedWriter class adds buffering to the mix, saving data in a buffer until it makes sense to write it all out to the file in one big spurt. 
+			:: The PrintWriter class adds basic formatting capabilities, such as adding a line ending at the end of each line and converting primitive types to strings. 
+			:: Both the FileWriter and the PrintWriter classes have an optional boolean parameter you can use to add extra capabilities to the file stream. 
+			:: If you specify true in the FileWriter constructor, the file is appended if it exists.
+			:: Appended simply means that any data in the file is retained; data that you write to the file in your program is simply added to the end of the file.
+			:: Here’s a PrintWriter constructor that appends data to its file:
+						
+						File file = new File("movies.txt");
+						PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(file, true )))// append mode
+						
+			:: If you specify false instead of true, or if you leave this parameter out, an existing file is deleted, and its data is lost.
+			:: Declarations using variables
+			
+						FileWriter fw = new FileWriter(file, true);
+						BufferedWriter bw = new BufferedWriter(fw);
+						PrintWriter out = new PrintWriter(bw, true);
+				
+			Writing to a character stream
+			-----------------------------
+					***WriteFile.java***
+			
+	Reading Binary Streams
+	-----------------------
+	-----------------------
+			:: To read a binary file, you usually work with the following classes
+					
+				1. File: Once again, you use the File class to represent the file itself.
+				2. FileInputStream: FileInputStream is what connects the input stream to a file.
+				3. BufferedInputStream: This class adds buffering to the basic FileInput Stream,which improves the stream’s efficiency and gives it a moist and chewy texture.
+				4. DataInputStream: This class is the one you actually work with to read data from the stream. The other Stream classes read a byte at a time.
+				   This class knows how to read basic data types, including primitive types and strings.
+				   
+			Creating a DataInputStream
+			---------------------------
+				 
+				File file = new File("movies.dat");
+				DataInputStream in = new DataInputStream(new BufferedInputStream(new FileInputStream(file) ) );
+				   
+				:: With binary files, you don’t read an entire line into the program and parse it into individual fields.
+				:: Instead, you use the various read methods of the DataInput Stream class to read the fields one at a time
+				:: To do that, you have to know the exact sequence in which data values appear in the file.
+				:: Here’s a code snippet that reads the information for a single movie and stores the data in variables
+						
+						String title = in.readUTF();
+						int year = in.readInt();
+						double price = in.readDouble();
+						
+				:: All of the read methods throw EOFException and IOException if the end of the file is reached and IOException if an I/O error occurs,
+				:: call these methods inside a try/catch block that catches these exceptions.
+				:: The read methods usually are used in a while loop to read all the data from the file. When the end of the file is reached, 
+				:: EOFException is thrown, then you can catch this exception and stop the loop.
+				:: One way to do that is to use a boolean variable to control the loop
+				
+						***ReadBinaryFile.java***
+						
+	Writing Binary Streams
+	----------------------
+	----------------------
+			:: To write data to a binary file, you use the following classes
+				1. FileOutputStream: The FileOutputStream class connects to a File object and creates an output stream that can write to the file. 
+				   This output stream is limited in its capabilities, it can write only raw bytes to the file. it doesn’t know how to write values such as ints, doubles,or strings.
+				2. BufferedOutputStream: This class connects to a FileOutputStream and adds output buffering.
+				3. DataOutputStream: This class adds the ability to write primitive data types and strings to a stream.
+				
+			Creating a DataOutputStream
+			----------------------------	
+				File file = new File(name);
+				DataOutputStream out = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(file) ) );
+				
+				:: The FileOutputStream class has an optional boolean parameter that you can use to indicate that the file should be appended if it exists.
+				:: To use this feature, call the constructors like this:
+				
+				File file = new File(name);
+				DataOutputStream out = new DataOutputStream(new BufferedOutputStream(new FileOutputStream(file, true) ) );
+				
+				:: If you specify false instead of true or leave the parameter out, an existing file is deleted, and its data is lost.
+								
+							***WriteBinaryFile.java***
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+			
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
