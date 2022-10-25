@@ -1,0 +1,82 @@
+Handling environments
+======================
+:: An event is an object that’s generated when the user does something noteworthy with one of your user-interface components.
+:: An event is represented by an instance of the class javafx.event.Event or one of its many subclasses
+:: Then this event object is passed to a special method you create, called an event handler. The event handler can examine the event object,
+   determine exactly what type of event occurred, and respond accordingly
+:: If the user clicks a button, the event handler might write any data entered by the user via text fields to a file
+:: If the user passes the mouse cursor over a label, the event handler might change the text displayed by the label.
+:: And if the user selects an item from a combo box, the event handler might use the value that was selected to look up information in a database.
+
+    Important Definitions:
+    ----------------------
+    1. Event: An object that’s created when the user does something noteworthy with a component, such as clicking it.
+    2. Event source: The object on which the event initially occurred.
+    3. Event target: The node that the event is directed at. This is usually the button or other control that the user clicked or otherwise
+       manipulated. (In most cases, the event source and the event target are the same.)
+    4. Event handler: The object that listens for events and handles them when they occur.
+
+    Handling Events (three steps you must take to handle a JavaFX event)
+    ---------------------------------------------------------------------
+    :: 1. Create an event source. An event source is simply a control, such as a button, that can generate events
+               Button btn = new Button();
+                btn.setText("Click me please!");
+    :: 2. Create an event handler. To create an event handler, you must create an object that implements an interface appropriately named EventHandler.
+          This object must provide an implementation of the handle() method.
+          :==> Add implements EventHandler to the program’s Application class and provide an implementation of the handle method.
+          :==> Create an inner class that implements EventHandler within the Application class.
+          :==> Create an anonymous class that implements EventHandler
+          :==> Use a lambda expression to implement the handle() method.
+    :: 3. Register the event handler with the event source.
+    :: Every component that serves as an event source provides a method that lets you register event handlers to listen for the event.
+
+    Implementing the EventHandler Interface
+    ---------------------------------------
+        ***AddSubtract.java***
+
+    Handling Events with Inner Classes
+    ----------------------------------
+    :: An inner class is a class that’s nested within another class.
+    :: Inner classes are commonly used for event handlers. That way, the class that defines the application does’t also have to implement the event handler.
+            ***AddSubtract2.java***
+
+    Handling Events with Anonymous Inner Classes
+    ---------------------------------------------
+    :: An anonymous inner class, is a class that’s defined on the spot, right at the point where you need it.
+    :: Because you code the body of the class right where you need it, you don’t have to give it a name; that’s why it’s called an anonymous class.
+    :: Anonymous classes are often used for event handlers to avoid the need to create a separate class that explicitly implements the EventHandler interface
+    :: The only sense in which the class is anonymous is that you don’t need to provide a name for a variable that will reference the class
+    :: With anonymous classes, you can easily create a separate event handler for each control that generates events.
+    :: Then, in the handle method for those event handlers, you can dispense with the if statements that check the event source.
+                ***AddSubtract3.java***
+
+    Using Lambda Expressions to Handle Events
+    ------------------------------------------
+    :: A lambda expression is a concise way to create an anonymous class that implements a functional interface.
+    :: Instead of providing a formal method declaration that includes the return type, method name, parameter types, and method body, you simply define the parameter types and the method body
+    :: The Java compiler infers the rest based on the context in which you use the lambda expression.
+    :: The parameter types are separated from the method body by a new operator — the arrow operator
+    :: When the method is called, the iCounter variable is incremented and the label text is updated to display the new counter value.
+    :: with lambda expressions is that you don’t need to know the name of the method being called.
+    :: a functional interface used with a lambda expression can have only one abstract method
+    :: You also do not need to know the name of the interface being implemented, because the interface is determined by the context.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
