@@ -1,0 +1,25 @@
+Getting Input from the User
+-------------------------------
+     Using Text Fields
+     -----------------
+     :: A text field is a box into which the user can type a single line of text.
+     :: You create text fields by using the TextField class.
+                ***RolePlayer.java***
+
+      Validating Numeric Data
+     ------------------------
+        :: The getText method returns a string value
+        :: Use the parseInt() method to convert the value entered in a text box to an int
+                    Integer parseInt(String)
+                    Short parseShort(String)
+                    Long parseLong(String)
+                    Byte parseByte(String)
+                    Float parseFloat(String)
+                    Double parseDouble(String)
+        :: If your program uses more than one or two numeric-entry text fields, consider creating separate methods to validate the user’s input.
+                    ***RolePlayer.java***
+
+        Using Check Boxes
+        ------------------
+        Using Radio Buttons
+        -------------------
