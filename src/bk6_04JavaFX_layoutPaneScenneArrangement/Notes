@@ -1,0 +1,83 @@
+
+Using Layout Panes to Arrange Your Scenes
+==========================================
+:: Controlling the layout of components in a scene is often one of the most difficult aspects of working with JavaFX.
+:: Layout panes are special classes whose sole purpose in life is to control the arrangement of the nodes that appear in a scene.
+:: JavaFX provides several distinct types of layout panes; each type uses a different approach to controlling the arrangement of nodes
+    Working with Layout Panes
+    ---------------------------
+    :: Understanding layout panes is the key to creating JavaFX frames that are attractive and usable.
+        Introducing five JavaFX layout panes
+        ------------------------------------
+        1. HBox: This layout pane arranges nodes horizontally, one next to the other. You use it to create controls arranged neatly in rows.
+        2. VBox: This layout pane arranges nodes vertically, one above the other. You use it to create controls arranged neatly in columns.
+        3. FlowPane: This layout pane arranges nodes next to each other until it runs out of room; then, it wraps to continue layout nodes. You can configure a
+           FlowPane to arrange nodes horizontally in rows or vertically in columns.
+        4. Border: This layout pane divides the pane into five regions: Top, Left, Center, Right, and Bottom. When you add a node, you can specify which region you want to place the node in.
+        5. GridPane: This layout pane divides the pane into a grid, affording you complete control of the arrangement of elements in rows and columns.
+        Creating layout panes
+        ----------------------
+        1. Create the controls or other nodes you want to add to the pane
+        2. Create a layout pane by calling its constructor.
+                HBox pane = new HBox();
+        3. Fine-tune the optional settings used by the layout pane.
+                HBox.setSpacing(10);
+        4. Add each of the nodes that will appear in the layout pane
+                pane.getChildren().addAll(btnOK, btnCancel);
+        5. Create the scene, specifying the layout pane as the scene’s root node.
+                Scene scene = new Scene(pane, 300, 400);
+        Combining layout panes
+        ------------------------
+        :: All the layout panes inherit the base class javafx.scene.layout.Pane, which in turn inherits the class javafx.scene.node. All panes are also nodes.
+        :: Each node that you add to a layout pane can be another layout pane. You can nest layout panes within layout panes as deeply as you need to achieve the
+           exact layout you need for your application
+        Using the HBox Layout
+        ----------------------
+                Button btn1 = new Button("Button One");
+                Button btn2 = new Button("Button Two");
+                Button btn3 = new Button("Button Three");
+                HBox hbox = new HBox(btn1, btn2, btn3);
+                        OR
+                HBox hbox = new HBox();
+                Hbox.getChildren().addAll(btn1, btn2, btn3);
+                ***HBoxConstructorsMethods.png***
+                Spacing Things Out
+                -------------------
+                ==> READ BOOK, Page 630 - 634
+
+        Using the VBox Layout
+        ----------------------
+                Button btn1 = new Button("Button One");
+                Button btn2 = new Button("Button Two");
+                Button btn3 = new Button("Button Three");
+                VBox vbox = new VBox(btn1, btn2, btn3);
+                        OR
+                VBox vbox = new VBox();
+                Vbox.getChildren().addAll(btn1, btn2, btn3);
+                Spacing Things Out
+                ------------------
+                ==> READ BOOK, Page 636 - 639
+
+        Using the Flow Layout
+        ----------------------
+        :: The flow layout comes in two flavors: horizontal and vertical.
+        :: A horizontal flow layout arranges its child nodes in a row until the width of the pane reaches a certain size that you can specify
+        :: A vertical flow layout works the same way except that child nodes are laid out in columns until the size limit is reached.
+        :: You use the FlowPane class to create a flow layout
+                ***FlowPaneConstructorsMethods.png, FlowPaneConstructorsMethods1.png***
+                ==> Read BOOK, Page 642
+
+        Using the Border Layout
+        -----------------------
+        :: The border layout is a pane that is carved into five regions: Top, Left, Center, Right, and Bottom
+        :: You use the BorderPane class to create a border layout
+                    ***BorderPaneConstructorsMethods.png***
+                    ==> READ BOOK, Page 644 - 645
+
+        Using the GridPane Layout
+        --------------------------
+        :: The grid pane layout manager lets you arrange GUI elements in a grid of rows and columns
+        :: The grid pane layout automatically adjusts the width of each column and the height of each row based on the components you add to the panel.
+                    ==> READ BOOK, Page 645 - 650
+                    ***GridPaneConstructorsMethods.png***
+
