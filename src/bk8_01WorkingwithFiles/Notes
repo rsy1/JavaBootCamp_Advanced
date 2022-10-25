@@ -1,0 +1,234 @@
+
+Working with Files
+======================
+	:: Beginning with Java 1.7, you have two choices for working with files and directories
+	:: You can use the original File class or you can use the new Path class, which is part of a new file-processing package called NIO.2
+	:: NIO.2 stands for New I/O version 2
+	
+	Using the File Class
+	---------------------
+	:: The File class is in the java.io package
+	:: The File class is your key to processing files and directories. 
+	:: A File object represents a single file or directory
+	:: The File object represents a file that may or may not actually exist
+	:: Java uses a single class to represent both files and directories because a directory is actually nothing more than a special type of file
+	
+	Knowing the class constructors and methods
+	-------------------------------------------
+		***The File Class.png, The File Class1.png***
+		
+	Creating a File object
+	----------------------
+	:: To create a File object, you call the File constructor, passing a string representing the filename as a parameter.
+	
+			File f = new File("hits.log");
+			
+	:: The file’s name is hits.log, and it lives in the current directory, which usually is the directory from which the Java Virtual Machine (JVM) was started
+	:: If you don’t want the file to live in the current directory, you can supply a complete pathname in the parameter string
+	:: If you hard-code pathnames as string literals, the backslash character is the escape character for Java strings. 
+	:: Thus you must code two backslashes to get one backslash in the pathname. 
+	:: You must code the path c:\logs\hits.log like this:
+	   
+					String path = "c:\\logs\\hits.log";
+					
+	Creating a file
+	----------------
+	:: Creating a File object doesn’t create a file on the hard drive. 
+	:: Instead, it creates an in-memory object that represents a file or directory that may or may not actually exist on the hard drive.
+	   
+	   				File f = new File(path);
+					if (!f.exists())
+						System.out.println("The input file does not exist!");
+
+	:: To create a new file on the hard drive, create a File object with the filename you want to use and then use the createNewFile method,
+	
+					File f = new File(path);
+					if (f.createNewFile())
+						System.out.println("File created.");
+					else
+						System.out.println("File could not be created.");
+						
+	:: The createNewFile method returns a boolean that indicates whether the file was created successfully.
+	:: If the file already exists, createNewFile returns false
+	:: When you create a file with the createNewFile method, the file doesn’t have anything in it
+	
+	Getting information about a file
+	---------------------------------
+	:: Several of the methods of the File class simply return information about a file or directory. 
+	:: You can find out whether the File object represents a file or directory, by calling its isDirectory() or isFile() method.
+	:: Other methods let you find out whether a file is read-only or hidden, or retrieve the file’s age and the time when it was last modified.
+	:: You can get the name of the file represented by a File object in several popular ways:
+		
+		>>To get just the filename, use the getName method. This method returns a string that includes just the filename, not the complete path.
+		>>To get the path that was specified to create the File object (such as \logs\hit.log), use the toString method instead.
+		>>To get the full path for a file — that is, the complete path including the drive letter (for Windows systems) and all the directories and subdirectories leading
+		  to the file — use the getCannonicalPath method. This method removes any system-dependent oddities such as relative paths, dots (which represent the current directory), 
+		  and double dots (which represent the parent directory) to get the file’s actual path.
+				  
+	Getting the contents of a directory
+	------------------------------------
+	:: A directory is a file that contains a list of other files or directories.
+	:: Because a directory is just a special type of file, it’s represented by an object of the File class.
+	:: You can tell whether a particular File object is a directory by calling its isDirectory() method.
+	:: If this method returns true, the File is a directory
+	:: you can get an array of all the files contained in the directory by calling the listFiles() method
+				
+				***FileDirectorySystem.java, FileDirectorySystem2.java***				
+					
+	Renaming files
+	---------------
+	:: You can rename a file by using the renameTo() method.
+	:: This method uses another File object as a parameter that specifies the file you want to rename the current file to.
+	:: It returns a boolean value that indicates whether the file was renamed successfully.
+				***RenameFile.java***
+	
+	Deleting a file
+	-----------------
+	:: To delete a file, create a File object for the file and then call the delete method
+	:: If the file is a directory, the directory must be empty to be deleted.
+			
+			***DeleteFile.java***
+	
+	Using Command-Line Parameters
+	------------------------------
+	:: The args parameter is an array of strings that lets you access any command-line parameters that are specified by the user when he or she runs your program.
+	 			
+	 			public static void main(String[] args)
+	
+				C:\>java Test the quick brown fox
+				
+				public static void main(String[] args)
+				{
+					for (String s : args)
+					System.out.println(s);
+				}
+				
+			***ListDirectory.java***
+			
+	Choosing Files in a Swing Application
+	-------------------------------------
+		***The JFileChooser Class.png, FileChooser.java***
+		
+	Creating an Open dialog box
+	---------------------------
+		***FileChooser.java***
+		***page 788***
+	
+	Getting the selected file
+	---------------------------
+	***FileChooser.java***
+	***page 789***
+	
+	Using file filters
+	--------------------
+		***FileChooser.java***
+		***page 789***	
+	
+	Using Path Objects (NIO.2)
+	--------------------------
+	:: The File class flaws addressed by Path objects is that many of the operations of the File class don’t provide detailed error information when problems occur.
+	:: The delete method of the File class, for example, returns a boolean value to indicate whether the file was deleted, but if the file could not be deleted,
+	    there’s no way to find out why
+	:: Path objects correct this deficiency by throwing exceptions that contain detailed error information if an operation fails
+	:: Path is not actually a class; instead, it’s an interface
+	:: you use a method of new class called Paths to create Path objects.
+	:: The naming is confusing — Path versus Paths, interfaces versus classes
+	:: Both the Path interface and the Paths class are in the java.nio.File package
+				
+				***Path Methods.png, Path Methods2.png***
+		
+	
+	Creating files with the Paths class
+	-----------------------------------
+	:: Path and Paths are two distinct things: Path is an interface, and Paths is a class
+	:: To create a Path object, use the get method of the static Paths class
+	
+				Path p = Paths.get("c:\\test.txt");
+				
+	:: Like a File object, a Path object represents a file that may or may not actually exist on the hard drive
+	
+				***PathNIO_2.java***
+				
+	Getting the contents of a directory
+	-----------------------------------
+	:: The File class is not scalable to process large files
+	:: The Path class remedies this deficiency by letting you access the contents of a directory via a stream object defined by DirectoryStream
+	:: A stream provides a simple way to access a large number of data items one at a time
+	:: You can retrieve the items in a directory stream easily by using an enhanced for statement
+	
+			***DirectoryStreamTest.java***
+			
+			
+	Using a File Visitor to Walk a File Tree
+	-----------------------------------------
+			
+			***FileVisitorDemo.java***
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
