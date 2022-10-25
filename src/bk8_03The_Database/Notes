@@ -1,0 +1,120 @@
+
+The Database
+=============
+	:: statements in SQL aren’t case-sensitive, which means that you can write select, Select, or SELECT
+	
+	mysql database login
+	--------------------
+	mysql -u rsy1 -p
+	pswd: landcruiser@2020
+	
+	:: create database, table, and load data.
+	
+	mysql> source movies.sql
+
+	Using a basic select statement
+	-------------------------------
+	:: To query a database, you use the select statement
+	
+			select title, year from movie order by year;	
+			select * from movie order by year;
+	
+	Narrowing the query
+	--------------------
+	:: To select certain rows from a table, use the where clause in a select statement
+	
+			select title, year from movie where year <= 1980 order by year;
+	
+	Excluding rows
+	--------------
+	:: Perhaps you want to retrieve all rows except those that match certain criteria.
+	:: Here’s a query that ignores movies made in the 1970s
+	
+			select title, year from movie where year < 1970 or year > 1979 order by year;
+	
+	Using singleton selects
+	-------------------------
+	:: When you want to retrieve information for a specific row, mention the primary key column in the where clause,
+			
+			select title, year from movie where id = 7;
+			
+	Finding what something sounds like
+	-----------------------------------
+	:: Suppose that you want to retrieve information about a movie and can’t quite remember the name, but you know that it includes the word princess.
+	:: One of the most interesting variations of the where clause throws in the word like, which lets you search rows using wildcards.
+	:: The percent sign (%) is a wildcard character
+	
+			select title, year from movie where title like "%princess%";
+			
+	Using column functions
+	-----------------------
+	:: If you want a count of the total number of movies in the movie table or a count of the number of movies that were made before 1970
+	:: SQL’s column functions let you make calculations on columns
+	:: You can calculate the sum, average, or largest or smallest value, or count the number of values for an entire column.
+	
+			select count(*), min(year) from movie;			
+			select count(*) from movie where year < 1970;
+			select count(*), avg(price) from movie;
+			
+	Selecting data from more than one table
+	---------------------------------------
+	:: Create a friend table using friends.sql script
+	:: select title from movie, friend where movie.id = friend.movieid and lastname = "Haskell";	
+	
+			select lastname, firstname, title from movie, friend where movie.id = friend.movieid;
+			select title from movie, friend where movie.id = friend.movieid and lastname = "Haskell";
+			
+	:: you can refer to the friend table in the where clause, even though you’re not actually retrieving any of its columns
+	:: You must still mention both tables in the from clause,
+			
+	Eliminating duplicates
+	-----------------------
+	:: If you want to know just the names of all your friends who have a movie checked out, you can do a simple select from the friend table, like this
+
+			select lastname, firstname from friend;
+			
+	:: You can eliminate duplicate rows by adding the distinct keyword in the select statement
+	
+			select distinct lastname, firstname from friend;
+			
+	Updating and Deleting Rows
+	---------------------------
+			Using the delete statement
+			---------------------------
+			:: The basic syntax of the delete statement is
+					
+					delete from table-name where condition;
+					delete from movie where id = 10;
+					select * from movie;
+			
+			:: As you can see, movie 10 is gone.
+			:: If the where clause selects more than one row, all the selected rows are deleted
+			
+					delete from friend where lastname = "Haskell";
+					select * from friend;
+					
+			:: If you don’t include a where clause, the entire table is deleted
+			
+			Using the update statement
+			--------------------------
+			:: The update statement selects one or more rows in a table and then modifies the value of one or more columns in the selected rows
+					
+					update movie set price = 18.95 where id = 8;
+					
+			:: You can use a quick select statement to verify that the price was changed, as
+			
+					select id, price from movie;
+					
+			:: To update more than one column, use commas to separate the expressions. 
+			:: Here’s a statement that changes Eddie Haskell’s name in the friend table
+			
+					update friend set lastname = "Bully", firstname = "Big" where lastname = "Haskell";
+					
+			:: One final trick with the update statement you should know about is that the set expressions can include calculations
+			
+					update movie set price = price * 1.1;
+					
+					select * from movie;
+					
+			:: All movie prices went up by 10 percent	
+			
